@@ -15,10 +15,12 @@
 		if (__data)
 
 #define publish if (_commitFunction) _commitFunction(); }
+#define onFail if (!_commitFunction)
 
 
 #define bindEmpty(functionName) functionName()
 
 #define publishEmpty(EventType) publish##EventType()
+#define or else
 
 #endif

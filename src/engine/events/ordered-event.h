@@ -43,7 +43,6 @@ void commit##EventName() \
 	commit##EventName##NonOrdered(); \
 } \
 \
-void on##EventName(type *event); \
 void handle##EventName() \
 { \
 	if (bufMan_hasNew(&EventName##NonOrdered._bufManager)) \

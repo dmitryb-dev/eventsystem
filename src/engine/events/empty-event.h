@@ -12,7 +12,7 @@ typedef struct EventName##Stream  \
 } EventName##Stream; \
 EventName##Stream EventName; \
 \
-void publish##EventName() \
+int publish##EventName() \
 { \
 	if (EventName._written >= 100) \
 	{ \
@@ -22,7 +22,9 @@ void publish##EventName() \
 	if (EventName._written - EventName._read < bufSize) \
 	{ \
 		EventName._written++; \
+		return 1; \
 	} \
+	return 0; \
 } \
 \
 void on##EventName(); \
