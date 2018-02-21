@@ -15,7 +15,7 @@ Component(double, TestComp)
     return ++id;
 }
 
-void test_ordering()
+void test_get()
 {
 	TEST_ASSERT_EQUAL(1, Create(TestComp));
     TEST_ASSERT_EQUAL(2, Create(TestComp));
