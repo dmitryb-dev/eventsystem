@@ -1,5 +1,5 @@
-#ifndef EVENT_SYSTEM_UTILS_H
-#define EVENT_SYSTEM_UTILS_H
+#ifndef EVENT_SYSTEM_DSL_H
+#define EVENT_SYSTEM_DSL_H
 
 #define bindTo(functionName) functionName(event)
 
@@ -15,5 +15,10 @@
 		if (__data)
 
 #define publish if (_commitFunction) _commitFunction(); }
+
+
+#define bindEmpty(functionName) functionName()
+
+#define publishEmpty(EventType) publish##EventType()
 
 #endif

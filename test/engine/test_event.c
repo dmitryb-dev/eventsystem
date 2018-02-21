@@ -14,7 +14,6 @@ void setUp()
 	lastCallValue = 0;
 }
 
-
 Event(Test1, int, 2)
 {
 	bindTo(lastCallSetter);
