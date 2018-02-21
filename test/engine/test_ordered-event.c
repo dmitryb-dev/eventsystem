@@ -21,6 +21,6 @@ OrderedEvent(OEvent1, int, 3, defaultGroup)
 
 void test_ordering()
 {
-	handleOTest1();
+	handleOEvent1();
 	TEST_ASSERT_EQUAL(0, lastCallId);
 }

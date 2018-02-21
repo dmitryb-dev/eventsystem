@@ -18,7 +18,7 @@
 
 #define Create(name) create##name()
 
-#define Get(name) init##ame##Component()
+#define Get(name) init##name##Component()
 
 
 #endif
