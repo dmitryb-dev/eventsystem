@@ -1,6 +1,7 @@
 #ifndef SYSTEM_ORDERED_EVENT_H
 #define SYSTEM_ORDERED_EVENT_H
 
+#include "aliases.h"
 #include "event.h"
 
 typedef struct Group
@@ -29,8 +30,12 @@ Event(EventName##NonOrdered, EventName##Wrapper, bufSize) \
 void* create##EventName() \
 { \
 	EventName##Wrapper* wrapper = create##EventName##NonOrdered(); \
-	wrapper->id = group.nextWriteId++; \
-	return &wrapper->wrapped; \
+    if (wrapper) \
+    { \
+        wrapper->id = group.nextWriteId++; \
+        return &wrapper->wrapped; \
+    } \
+	return EVENT_DENIED; \
 } \
 \
 void commit##EventName() \
