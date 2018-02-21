@@ -43,7 +43,7 @@ void commit##EventName() \
 	commit##EventName##NonOrdered(); \
 } \
 \
-void handle##EventName() \
+int handle##EventName() \
 { \
 	if (bufMan_hasNew(&EventName##NonOrdered._bufManager)) \
 	{ \
@@ -53,8 +53,10 @@ void handle##EventName() \
 		{ \
 			handle##EventName##NonOrdered(); \
 			group.nextReadId++; \
+			return 1; \
 		} \
 	} \
+	return 0; \
 } \
 \
 void on##EventName(type *event)

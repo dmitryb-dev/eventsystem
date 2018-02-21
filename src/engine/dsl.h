@@ -1,7 +1,10 @@
 #ifndef EVENT_SYSTEM_DSL_H
 #define EVENT_SYSTEM_DSL_H
 
+#include "component.h"
+
 #define bindTo(functionName) functionName(event)
+#define bindComponent(componentName, handlerName) handlerName(Get(componentName), event)
 
 #define event(EventType, varDef) \
 	{ \
@@ -19,8 +22,10 @@
 
 
 #define bindEmpty(functionName) functionName()
+#define bindEmptyToComponent(componentName, handlerName) handlerName(Get(componentName))
 
-#define publishEmpty(EventType) publish##EventType()
-#define or else
+#define publishEmpty(EventType) if (publish##EventType()) {}
+#define orElse
+
 
 #endif

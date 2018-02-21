@@ -21,9 +21,9 @@ int publish##EventName() \
 	} \
 	return 0; \
 } \
-void handle##EventName() \
+int handle##EventName() \
 { \
-	handle##EventName##NotEmpty(); \
+	return handle##EventName##NotEmpty(); \
 } \
 void on##EventName()
 

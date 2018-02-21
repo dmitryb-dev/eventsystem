@@ -28,13 +28,15 @@ int publish##EventName() \
 } \
 \
 void on##EventName(); \
-void handle##EventName() \
+int handle##EventName() \
 { \
 	if (EventName._read < EventName._written) \
 	{ \
 		on##EventName(); \
 		EventName._read++; \
+		return 1; \
 	} \
+	return 0; \
 } \
 \
 void on##EventName()
