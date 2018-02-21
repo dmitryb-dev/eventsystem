@@ -25,7 +25,7 @@
 #define bindEmptyToComponent(componentName, handlerName) handlerName(Get(componentName))
 
 #define publishEmpty(EventType) if (publish##EventType()) {}
-#define orElse
+#define orElse else
 
 
 #endif

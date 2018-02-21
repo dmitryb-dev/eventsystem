@@ -111,3 +111,53 @@ void test_write_on_free_again_space()
 	handleTest3();
 	TEST_ASSERT_EQUAL(15, lastCallValue);
 }
+
+Event(Test4, int, 2)
+{
+	bindTo(lastCallSetter);
+}
+void test_on_fail()
+{
+	int isFail = 0;
+
+	forInts(1, 3, i)
+	{
+		event(Test4, int* data)
+		{
+			*data = i;
+		}
+		onFail
+		{
+			isFail = i + 1;
+		} publish;
+	}
+
+	TEST_ASSERT_EQUAL(0, lastCallValue);
+	TEST_ASSERT_EQUAL(0, isFail);
+
+	event(Test4, int* data)
+	{
+		*data = 3;
+	}
+	onFail
+	{
+		isFail = 4;
+	} publish;
+
+	TEST_ASSERT_EQUAL(0, lastCallValue);
+	TEST_ASSERT_EQUAL(4, isFail);
+
+	handleTest4();
+
+	event(Test4, int* data)
+	{
+		*data = 4;
+	}
+	onFail
+	{
+		isFail = 5;
+	} publish;
+
+	TEST_ASSERT_EQUAL(1, lastCallValue);
+	TEST_ASSERT_EQUAL(4, isFail);
+}
