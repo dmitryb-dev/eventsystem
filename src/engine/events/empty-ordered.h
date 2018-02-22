@@ -3,10 +3,11 @@
 
 #include "ordered-event.h"
 
+/*
+ * See ordered-event.h for details.
+ */
 #define EmptyOrdered(EventName, bufSize, group)  \
-/* \
- * See ordered-event.h for details \
- */ \
+\
 void _evs_on##EventName(); \
 OrderedEvent(NotEmpty##EventName, char, bufSize, group) \
 { \

@@ -4,14 +4,15 @@
 #include "read-write-buf.h"
 #include "aliases.h"
 
-#define Event(EventName, type, bufSize) \
-/* \
- * It describes an event. It is thread safe when you have one \
+/*
+ * It describes an event. It is thread safe when you have one
  * reading and one writing thread. \
- * Example: main thread and interrupts. If you have	\
- * prioritized interrupts you should declare separate events \
- * for every priority. \
- */ \
+ * Example: main thread and interrupts. If you have
+ * prioritized interrupts you should declare separate events
+ * for every priority.
+ */
+#define Event(EventName, type, bufSize) \
+\
 struct \
 { \
 	ReadWriteBufManager _bufManager; \

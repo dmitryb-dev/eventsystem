@@ -3,10 +3,11 @@
 
 #include "read-write-buf.h"
 
+/*
+ * See event.h for more info.
+ */ 
 #define EmptyEvent(EventName, bufSize) \
-/* \
- * See event.h for more info \
- */ \
+\
 ReadWriteBufManager _evs_##EventName; \
 \
 int _evs_publish##EventName() \

@@ -4,6 +4,10 @@
 #include "aliases.h"
 #include "event.h"
 
+/*
+ * Ordered events come in order within a group. Ordering of
+ * events of differents group is not garanted.
+ */
 typedef struct Group
 {
 	char nextWriteId;
@@ -11,10 +15,11 @@ typedef struct Group
 } Group;
 Group defaultGroup;
 
+/*
+ * See event.h for details.
+ */
 #define OrderedEvent(EventName, type, bufSize, group)  \
-/* \
- * See event.h for details \
- */ \
+\
 typedef struct _evs_Wrapper##EventName \
 { \
 	 char id; \

@@ -5,7 +5,7 @@
 #include "system.h"
 
 /*
- * Define prioritized event system. The run function will look like:
+ * Defines prioritized event system. The run function will look like:
  * while(1)
  * {
  * 		while (handleMediumPriority()); // until all events handled
@@ -16,7 +16,6 @@
  * 		handleLowPriority2();
  * }
  */
-
 int _evs_handleHighestPriority();
 int _evs_handleMediumPriority();
 void _evs_handleLowPriority();
