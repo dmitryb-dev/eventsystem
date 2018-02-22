@@ -1,44 +1,37 @@
 #ifndef SYSTEM_EMPTY_EVENT_H
 #define SYSTEM_EMPTY_EVENT_H
 
+#include "read-write-buf.h"
+
+/*
+ * See event.h for more info.
+ */ 
 #define EmptyEvent(EventName, bufSize) \
-/* \
- * See event.h for more info \
- */ \
-typedef struct EventName##Stream  \
-{ \
-	unsigned char _read; \
-	unsigned char _written; \
-} EventName##Stream; \
-EventName##Stream EventName; \
 \
-int publish##EventName() \
+ReadWriteBufManager _evs_##EventName; \
+\
+int _evs_publish##EventName() \
 { \
-	if (EventName._written >= 100) \
+	if (bufMan_hasSpace(&_evs_##EventName)) \
 	{ \
-		EventName._written -= 100; \
-		EventName._read -= 100; \
-	} \
-	if (EventName._written - EventName._read < bufSize) \
-	{ \
-		EventName._written++; \
+		bufMan_writeStep(&_evs_##EventName, bufSize); \
 		return 1; \
 	} \
 	return 0; \
 } \
 \
-void on##EventName(); \
-int handle##EventName() \
+void _evs_on##EventName(); \
+int _evs_handle##EventName() \
 { \
-	if (EventName._read < EventName._written) \
+	if (bufMan_hasNew(&_evs_##EventName)) \
 	{ \
-		on##EventName(); \
-		EventName._read++; \
+		_evs_on##EventName();	\
+        bufMan_readStep(&_evs_##EventName, bufSize); \
 		return 1; \
 	} \
 	return 0; \
 } \
 \
-void on##EventName()
+void _evs_on##EventName()
 
 #endif

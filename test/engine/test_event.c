@@ -16,105 +16,80 @@ void setUp()
 
 Event(Test1, int, 2)
 {
-	bindTo(lastCallSetter);
+	bindData(lastCallSetter);
 }
 void test_workflow()
 {
-	event(Test1, int* data)
+	publishData(Test1, int, data)
 	{
 		*data = 4;
-	} publish;
+	}
 
 	TEST_ASSERT_EQUAL(0, lastCallValue);
 
-	handleTest1();
+	_evs_handleTest1();
 	TEST_ASSERT_EQUAL(4, lastCallValue);
 }
 
 
 Event(Test2, int, 2)
 {
-	bindTo(lastCallSetter);
+	bindData(lastCallSetter);
 }
 void test_write_until_end()
 {
-	event(Test2, int* data)
-	{
-		*data = 4;
-	} publish;
+	publishData(Test2, int, data) *data = 4;
 
-	event(Test2, int* data)
-	{
-		*data = 7;
-	} publish;
+	publishData(Test2, int, data) *data = 7;
 
 	// Lost
-	event(Test2, int* data)
-	{
-		*data = 11;
-	} publish;
-
-	handleTest2();
+	publishData(Test2, int, data) *data = 11;
+    
+	_evs_handleTest2();
 	TEST_ASSERT_EQUAL(4, lastCallValue);
-
-	handleTest2();
+    
+	_evs_handleTest2();
 	TEST_ASSERT_EQUAL(7, lastCallValue);
 
-	handleTest2();
+	_evs_handleTest2();
 	TEST_ASSERT_EQUAL(7, lastCallValue);
 }
 
 Event(Test3, int, 2)
 {
-	bindTo(lastCallSetter);
+	bindData(lastCallSetter);
 }
 void test_write_on_free_again_space()
 {
-	event(Test3, int* data)
-	{
-		*data = 3;
-	} publish;
+	publishData(Test3, int, data) *data = 3;
 
-	handleTest3();
+	_evs_handleTest3();
 	TEST_ASSERT_EQUAL(3, lastCallValue);
 
-	event(Test3, int* data)
-	{
-		*data = 11;
-	} publish;
-
-	event(Test3, int* data)
-	{
-		*data = 12;
-	} publish;
+	publishData(Test3, int, data) *data = 11;
+	publishData(Test3, int, data) *data = 12;
 
 	// Lost
-	event(Test3, int* data)
-	{
-		*data = 14;
-	} publish;
+	publishData(Test3, int, data) *data = 14;
 
-	handleTest3();
+	_evs_handleTest3();
 	TEST_ASSERT_EQUAL(11, lastCallValue);
 
-	handleTest3();
+	_evs_handleTest3();
 	TEST_ASSERT_EQUAL(12, lastCallValue);
 
-	handleTest3();
+	_evs_handleTest3();
 	TEST_ASSERT_EQUAL(12, lastCallValue);
 
-	event(Test3, int* data)
-	{
-		*data = 15;
-	} publish;
+	publishData(Test3, int, data) *data = 15;
 
-	handleTest3();
+	_evs_handleTest3();
 	TEST_ASSERT_EQUAL(15, lastCallValue);
 }
 
 Event(Test4, int, 2)
 {
-	bindTo(lastCallSetter);
+	bindData(lastCallSetter);
 }
 void test_on_fail()
 {
@@ -122,41 +97,41 @@ void test_on_fail()
 
 	forInts(1, 3, i)
 	{
-		event(Test4, int* data)
+		publishData(Test4, int, data)
 		{
 			*data = i;
 		}
-		onFail
+		else
 		{
 			isFail = i + 1;
-		} publish;
+		}
 	}
 
 	TEST_ASSERT_EQUAL(0, lastCallValue);
 	TEST_ASSERT_EQUAL(0, isFail);
 
-	event(Test4, int* data)
+	publishData(Test4, int, data)
 	{
 		*data = 3;
 	}
-	onFail
+	else
 	{
 		isFail = 4;
-	} publish;
+	}
 
 	TEST_ASSERT_EQUAL(0, lastCallValue);
 	TEST_ASSERT_EQUAL(4, isFail);
 
-	handleTest4();
+	_evs_handleTest4();
 
-	event(Test4, int* data)
+	publishData(Test4, int, data)
 	{
 		*data = 4;
 	}
-	onFail
+	else
 	{
 		isFail = 5;
-	} publish;
+	}
 
 	TEST_ASSERT_EQUAL(1, lastCallValue);
 	TEST_ASSERT_EQUAL(4, isFail);

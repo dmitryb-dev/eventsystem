@@ -41,9 +41,9 @@ LowLevel
 
 void test_array()
 {
-	repeat(3) publishEmpty(LowEvent);
-	repeat(3) publishEmpty(MediumEvent)
-	repeat(4) publishEmpty(HighEvent)
+	repeat(3) publishEvent(LowEvent);
+	repeat(3) publishEvent(MediumEvent)
+	repeat(4) publishEvent(HighEvent)
 
 
 	systemStep();
@@ -58,7 +58,7 @@ void test_array()
 	TEST_ASSERT_EQUAL_INT_ARRAY(expectedOrderOfEvents2, orderOfEvents, 10);
 
 
-	publishEmpty(HighEvent)
+	publishEvent(HighEvent)
 	systemStep();
 
 	int expectedOrderOfEvents3[] = { 2, 1, 1, 1, 2, 2, 3, 3, 1, 3 };

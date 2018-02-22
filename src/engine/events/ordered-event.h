@@ -4,6 +4,10 @@
 #include "aliases.h"
 #include "event.h"
 
+/*
+ * Ordered events come in order within a group. Ordering of
+ * events of differents group is not garanted.
+ */
 typedef struct Group
 {
 	char nextWriteId;
@@ -11,25 +15,26 @@ typedef struct Group
 } Group;
 Group defaultGroup;
 
+/*
+ * See event.h for details.
+ */
 #define OrderedEvent(EventName, type, bufSize, group)  \
-/* \
- * See event.h for details \
- */ \
-typedef struct EventName##Wrapper \
+\
+typedef struct _evs_Wrapper##EventName \
 { \
 	 char id; \
 	 type wrapped; \
-} EventName##Wrapper; \
+} _evs_Wrapper##EventName; \
 \
 void on##EventName(type *event); \
-Event(EventName##NonOrdered, EventName##Wrapper, bufSize) \
+Event(NonOrdered##EventName, _evs_Wrapper##EventName, bufSize) \
 { \
 	 on##EventName(&event->wrapped); \
 } \
 \
-void* create##EventName() \
+void* _evs_create##EventName() \
 { \
-	EventName##Wrapper* wrapper = create##EventName##NonOrdered(); \
+	_evs_Wrapper##EventName* wrapper = _evs_createNonOrdered##EventName(); \
     if (wrapper) \
     { \
         wrapper->id = group.nextWriteId++; \
@@ -38,20 +43,20 @@ void* create##EventName() \
 	return EVENT_DENIED; \
 } \
 \
-void commit##EventName() \
+int _evs_commit##EventName() \
 { \
-	commit##EventName##NonOrdered(); \
+	return _evs_commitNonOrdered##EventName(); \
 } \
 \
-int handle##EventName() \
+int _evs_handle##EventName() \
 { \
-	if (bufMan_hasNew(&EventName##NonOrdered._bufManager)) \
+	if (bufMan_hasNew(&_evs_NonOrdered##EventName._bufManager)) \
 	{ \
-		int index = EventName##NonOrdered._bufManager.readPos; \
-		EventName##Wrapper* wrapper = &EventName##NonOrdered._eventBuf[index]; \
+		int index = _evs_NonOrdered##EventName._bufManager.readPos; \
+		_evs_Wrapper##EventName* wrapper = &_evs_NonOrdered##EventName._eventBuf[index]; \
 		if (group.nextReadId == wrapper->id) \
 		{ \
-			handle##EventName##NonOrdered(); \
+			_evs_handleNonOrdered##EventName(); \
 			group.nextReadId++; \
 			return 1; \
 		} \

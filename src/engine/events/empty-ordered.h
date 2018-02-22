@@ -3,28 +3,29 @@
 
 #include "ordered-event.h"
 
+/*
+ * See ordered-event.h for details.
+ */
 #define EmptyOrdered(EventName, bufSize, group)  \
-/* \
- * See ordered-event.h for details \
- */ \
-void on##EventName(); \
-OrderedEvent(EventName##NotEmpty, char, bufSize, group) \
+\
+void _evs_on##EventName(); \
+OrderedEvent(NotEmpty##EventName, char, bufSize, group) \
 { \
-	on##EventName(); \
+	_evs_on##EventName(); \
 } \
-int publish##EventName() \
+int _evs_publish##EventName() \
 { \
-	if (create##EventName##NotEmpty()) \
+	if (_evs_createNotEmpty##EventName()) \
 	{ \
-		commit##EventName##NotEmpty(); \
+		_evs_commitNotEmpty##EventName(); \
 		return 1; \
 	} \
 	return 0; \
 } \
-int handle##EventName() \
+int _evs_handle##EventName() \
 { \
-	return handle##EventName##NotEmpty(); \
+	return _evs_handleNotEmpty##EventName(); \
 } \
-void on##EventName()
+void _evs_on##EventName()
 
 #endif

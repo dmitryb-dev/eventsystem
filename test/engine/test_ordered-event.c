@@ -16,92 +16,74 @@ void setUp()
 
 OrderedEvent(OEvent1, int, 2, defaultGroup)
 {
-    bindTo(call);
+    bindData(call);
 }
 OrderedEvent(OEvent2, int, 2, defaultGroup)
 {
-    bindTo(call);
+    bindData(call);
 }
 
 void test_ordering()
 {   
     // ev1 - 1
-    event(OEvent1, int* data)
+    publishData(OEvent1, int, data)
 	{
 		*data = 11;
-	} publish;
+	}
     
     // ev2 - 2
-    event(OEvent2, int* data)
-	{
-		*data = 22;
-	} publish;
+    publishData(OEvent2, int, data) *data = 22;
     
     // ev3 - 2
-    event(OEvent2, int* data)
-	{
-		*data = 32;
-	} publish;
+    publishData(OEvent2, int, data) *data = 32;
     
     // ev4 - 1
-    event(OEvent1, int* data)
-	{
-		*data = 41;
-	} publish;
+    publishData(OEvent1, int, data) *data = 41;
     
     // ev5 -2  - no more place
-    event(OEvent2, int* data)
-	{
-		*data = 51;
-	} publish;
+    publishData(OEvent2, int, data) *data = 51;
     
     // ev1 - 1
-	handleOEvent2();
+	_evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(0, lastCallId);
-    handleOEvent1();
+    _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(11, lastCallId);
     
     // ev2 - 2
-    handleOEvent1();
+    _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(11, lastCallId);
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(22, lastCallId);
     
     // ev3 - 2
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(32, lastCallId);
     
     // ev4 - 1
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(32, lastCallId);
-    handleOEvent1();
+    _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(41, lastCallId);
     
     // ev4 - 2 - no more place
-    handleOEvent1();
+    _evs_handleOEvent1();
     TEST_ASSERT_EQUAL(41, lastCallId);
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(41, lastCallId);
     
     // ev6 -2
-    event(OEvent2, int* data)
-	{
-		*data = 62;
-	} publish;
+    publishData(OEvent2, int, data) *data = 62;
     
      // ev7 - 1
-    event(OEvent1, int* data)
-	{
-		*data = 71;
-	} publish;
+    publishData(OEvent1, int, data) *data = 71;
     
     // ev6 - 2
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(62, lastCallId);
     
     // ev7 - 1
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(62, lastCallId);
-    handleOEvent1();
+    _evs_handleOEvent1();
     TEST_ASSERT_EQUAL(71, lastCallId);
 }

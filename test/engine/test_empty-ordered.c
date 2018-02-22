@@ -21,72 +21,72 @@ void setUp()
 
 EmptyOrdered(OEvent1, 2, defaultGroup)
 {
-    bindEmpty(call1);
+    bindEvent(call1);
 }
 EmptyOrdered(OEvent2, 2, defaultGroup)
 {
-    bindEmpty(call2);
+    bindEvent(call2);
 }
 
 void test_ordering()
 {
     // ev1 - 1
-	publishEmpty(OEvent1);
+	publishEvent(OEvent1);
 
     // ev2 - 2
-	publishEmpty(OEvent2);
+	publishEvent(OEvent2);
 
     // ev3 - 2
-	publishEmpty(OEvent2);
+	publishEvent(OEvent2);
 
     // ev4 - 1
-	publishEmpty(OEvent1);
+	publishEvent(OEvent1);
 
     // ev5 -2  - no more place
-	publishEmpty(OEvent2);
+	publishEvent(OEvent2);
 
 
     // ev1 - 1
-	handleOEvent2();
+	_evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(0, lastCallId);
-    handleOEvent1();
+    _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(11, lastCallId);
 
     // ev2 - 2
-    handleOEvent1();
+    _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(11, lastCallId);
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(22, lastCallId);
 
     // ev3 - 2
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(32, lastCallId);
 
     // ev4 - 1
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(32, lastCallId);
-    handleOEvent1();
+    _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(41, lastCallId);
 
     // ev4 - 2 - no more place
-    handleOEvent1();
+    _evs_handleOEvent1();
     TEST_ASSERT_EQUAL(41, lastCallId);
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(41, lastCallId);
 
     // ev6 - 2
-	publishEmpty(OEvent2);
+	publishEvent(OEvent2);
 
      // ev7 - 1
-	publishEmpty(OEvent1);
+	publishEvent(OEvent1);
 
     // ev6 - 2
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(52, lastCallId);
 
     // ev7 - 1
-    handleOEvent2();
+    _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(52, lastCallId);
-    handleOEvent1();
+    _evs_handleOEvent1();
     TEST_ASSERT_EQUAL(61, lastCallId);
 }
