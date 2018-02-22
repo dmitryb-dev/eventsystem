@@ -64,7 +64,7 @@ char _evs_somethingWasHandled; // default value for low level
 	if (!_evs_isHighestLevel) while(_evs_handleHighestPriority())
 
 
-void systemStep()
+void _evs_systemStep()
 {
 	while (_evs_handleMediumPriority());
 	_evs_handleLowPriority();

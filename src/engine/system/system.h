@@ -4,14 +4,14 @@
 int _evs_isEventSystemStopped;
 char _evs_systemStepId;
 
-void systemStep();
+void _evs_systemStep();
 
 void runEventSystem()
 {
 	while(!_evs_isEventSystemStopped)
 	{
 		_evs_systemStepId++;
-		systemStep();
+		_evs_systemStep();
 	}
 }
 

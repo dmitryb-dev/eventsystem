@@ -6,7 +6,7 @@
 
 #define registerEvent(EventName) _evs_handle##EventName()
 
-#define EventSystem void systemStep()
+#define EventSystem void _evs_systemStep()
 
 
 #endif

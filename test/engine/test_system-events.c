@@ -54,7 +54,7 @@ EventSystem
 	registerEvent(SystemTick);
 }
 
-void test_on_start()
+void test_system_events()
 {
 	runEventSystem();
 
