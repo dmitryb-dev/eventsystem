@@ -15,30 +15,48 @@
  * 		while (handleHighestPriority());
  * 		handleLowPriority2();
  * }
+ *
+ * The definition of system must be exactly next (order of priorities is strict):
+ * EventSystem {
+ * 		HighestPriority {
+ * 			...
+ * 		}
+ * 		MediumPriority {
+ * 			...
+ * 		}
+ * 		LowPriority {
+ * 			...
+ * 		}
+ * }
  */
 int _evs_handleHighestPriority();
 int _evs_handleMediumPriority();
 void _evs_handleLowPriority();
 
+
 int isHighestLevel; // default value for medium and low level
 char somethingWasHandled; // default value for low level
-#define HighestLevel \
+
+#define EventSystem void _evs_preStart()
+#define HighestPriority \
+	}\
 	int _evs_handleHighestPriority() \
 	{ \
 		int isHighestLevel = 1; \
 		char somethingWasHandled = 0;
 
-#define MediumLevel \
+#define MediumPriority \
 		return somethingWasHandled; \
 	} \
 	int _evs_handleMediumPriority() \
 	{ \
 		char somethingWasHandled = 0;
 
-#define LowLevel \
+#define LowPriority \
 		return somethingWasHandled; \
 	} \
 	void _evs_handleLowPriority() \
+	{
 
 
 #define registerEvent(EventName) \

@@ -2,15 +2,15 @@
 #define RUN_SYSTEM_ENGINE_H
 
 int _evs_isEventSystemStopped;
-char _evs_currentStepId;
+char _evs_systemStepId;
 
 void systemStep();
 
 void runEventSystem()
 {
-	while(_evs_isEventSystemStopped)
+	while(!_evs_isEventSystemStopped)
 	{
-        _evs_currentStepId++;
+		_evs_systemStepId++;
 		systemStep();
 	}
 }

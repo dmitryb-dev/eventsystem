@@ -26,17 +26,20 @@ EmptyEvent(LowEvent, 3)
 	happened(3);
 }
 
-HighestLevel
+EventSystem
 {
-	registerEvent(HighEvent);
-}
-MediumLevel
-{
-	registerEvent(MediumEvent);
-}
-LowLevel
-{
-	registerEvent(LowEvent);
+	HighestPriority
+	{
+		registerEvent(HighEvent);
+	}
+	MediumPriority
+	{
+		registerEvent(MediumEvent);
+	}
+	LowPriority
+	{
+		registerEvent(LowEvent);
+	}
 }
 
 void test_array()
