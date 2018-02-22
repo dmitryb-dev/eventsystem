@@ -4,7 +4,7 @@
 
 #include "system.h"
 
-#define registerEvent(EventName) handle##EventName()
+#define registerEvent(EventName) _evs_handle##EventName()
 
 #define EventSystem void systemStep()
 

@@ -1,24 +1,27 @@
 #ifndef COMPONENT_DSL
 #define COMPONENT_DSL
 
-#define Component(type, name) \
-	type name##Component; \
-	int name##ComponentisInitialized; \
-	type create##name(); \
-	type* init##name##Component() \
+#define Component(type, Name) \
+	type _evs_Component##Name; \
+	int _evs_Component##Name##IsInitialized; \
+    \
+	type _evs_create##Name(); \
+	type* _evs_initComponent##Name() \
 	{ \
-		if (!name##ComponentisInitialized) \
+		if (!_evs_Component##Name##IsInitialized) \
 		{ \
-			name##Component = create##name(); \
-			name##ComponentisInitialized++; \
+			_evs_Component##Name = _evs_create##Name(); \
+			_evs_Component##Name##IsInitialized++; \
 		} \
-		return &name##Component; \
+		return &_evs_Component##Name; \
 	} \
-	type create##name()
+    \
+	type _evs_create##Name()
 
-#define Create(name) create##name()
 
-#define Get(name) init##name##Component()
+#define Create(Name) _evs_create##Name()
+
+#define Get(Name) _evs_initComponent##Name()
 
 
 #endif

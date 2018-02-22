@@ -1,13 +1,13 @@
 #ifndef RUN_SYSTEM_ENGINE_H
 #define RUN_SYSTEM_ENGINE_H
 
-int isEventSystemStopped;
+int _evs_isEventSystemStopped;
 
 void systemStep();
 
 void runEventSystem()
 {
-	while(isEventSystemStopped)
+	while(_evs_isEventSystemStopped)
 	{
 		systemStep();
 	}

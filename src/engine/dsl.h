@@ -6,21 +6,21 @@
 int _evs_ok;
 int _evs_fail;
 
-#define bindTo(functionName) functionName(event)
-#define bindComponent(componentName, handlerName) handlerName(Get(componentName), event)
+#define bindData(handler) handler(event)
+#define bindDataToComp(component, handler) handler(Get(component), event)
 
-#define event(EventName, type, var) \
-    for (type* var = create##EventName(); \
+#define publishData(EventName, type, var) \
+    for (type* var = _evs_create##EventName(); \
          (var != &_evs_ok && var != &_evs_fail) || \
-         (var == &_evs_ok && commit##EventName()); \
+         (var == &_evs_ok && _evs_commit##EventName()); \
          var = var? &_evs_ok : &_evs_fail \
     ) if (var)
 
 
-#define bindEmpty(functionName) functionName()
-#define bindEmptyToComponent(componentName, handlerName) handlerName(Get(componentName))
+#define bindEvent(listener) listener()
+#define bindEventToComp(componentName, handlerName) handlerName(Get(componentName))
 
-#define publishEmpty(EventType) if (publish##EventType()) {}
+#define publishEvent(EventType) if (_evs_publish##EventType()) {}
 
 
 #endif

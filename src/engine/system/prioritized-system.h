@@ -17,14 +17,14 @@
  * }
  */
 
-int handleHighestPriority();
-int handleMediumPriority();
-void handleLowPriority();
+int _evs_handleHighestPriority();
+int _evs_handleMediumPriority();
+void _evs_handleLowPriority();
 
 int isHighestLevel; // default value for medium and low level
 char somethingWasHandled; // default value for low level
 #define HighestLevel \
-	int handleHighestPriority() \
+	int _evs_handleHighestPriority() \
 	{ \
 		int isHighestLevel = 1; \
 		char somethingWasHandled = 0;
@@ -32,25 +32,25 @@ char somethingWasHandled; // default value for low level
 #define MediumLevel \
 		return somethingWasHandled; \
 	} \
-	int handleMediumPriority() \
+	int _evs_handleMediumPriority() \
 	{ \
 		char somethingWasHandled = 0;
 
 #define LowLevel \
 		return somethingWasHandled; \
 	} \
-	void handleLowPriority() \
+	void _evs_handleLowPriority() \
 
 
 #define registerEvent(EventName) \
-	somethingWasHandled += handle##EventName(); \
-	if (!isHighestLevel) while(handleHighestPriority())
+	somethingWasHandled += _evs_handle##EventName(); \
+	if (!isHighestLevel) while(_evs_handleHighestPriority())
 
 
 void systemStep()
 {
-	while (handleMediumPriority());
-	handleLowPriority();
+	while (_evs_handleMediumPriority());
+	_evs_handleLowPriority();
 }
 
 

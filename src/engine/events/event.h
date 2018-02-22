@@ -12,21 +12,20 @@
  * prioritized interrupts you should declare separate events \
  * for every priority. \
  */ \
-typedef struct EventName##Stream \
+struct \
 { \
 	ReadWriteBufManager _bufManager; \
 	type _eventBuf[bufSize]; \
-} EventName##Stream; \
-EventName##Stream EventName; \
+} _evs_##EventName; \
 \
 /**	\
  * Allocates memory for new event. Returns pointer to allocated memory \
  * or EVENT_DENIED (0) if no place for new event in buffer.	\
  */	\
-void* create##EventName() \
+void* _evs_create##EventName() \
 { \
-	return bufMan_hasSpace(&EventName._bufManager) \
-			? &EventName._eventBuf[EventName._bufManager.writePos] \
+	return bufMan_hasSpace(&_evs_##EventName._bufManager) \
+			? &_evs_##EventName._eventBuf[_evs_##EventName._bufManager.writePos] \
 	        : EVENT_DENIED;	\
 } \
 \
@@ -34,29 +33,29 @@ void* create##EventName() \
  * After writing to allocated memory is finished you must call function	\
  * below. \
  */	\
-int commit##EventName() \
+int _evs_commit##EventName() \
 { \
-	bufMan_writeStep(&EventName._bufManager, bufSize); \
+	bufMan_writeStep(&_evs_##EventName._bufManager, bufSize); \
     return 0; \
 } \
 \
-void on##EventName(type *event); \
+void _evs_on##EventName(type *event); \
 \
 /**	\
  * If event buffer has new message, it takes that message and call \
  * onEvent(..) for it \
  */	\
-int handle##EventName() \
+int _evs_handle##EventName() \
 { \
-	if (bufMan_hasNew(&EventName._bufManager)) \
+	if (bufMan_hasNew(&_evs_##EventName._bufManager)) \
 	{ \
-		on##EventName(&EventName._eventBuf[EventName._bufManager.readPos]);	\
-        bufMan_readStep(&EventName._bufManager, bufSize); \
+		_evs_on##EventName(&_evs_##EventName._eventBuf[_evs_##EventName._bufManager.readPos]);	\
+        bufMan_readStep(&_evs_##EventName._bufManager, bufSize); \
 		return 1; \
 	} \
 	return 0; \
 } \
 \
-void on##EventName(type *event)
+void _evs_on##EventName(type *event)
 
 #endif
