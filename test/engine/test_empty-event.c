@@ -42,12 +42,12 @@ EmptyEvent(ETest3, 5)
 }
 void test_overflow()
 {
-	repeat(10) publishEmpty(ETest3); 		// max 5, 5 lost
+	repeat(10) publishEmpty(ETest3); // max 5, 5 lost
 
-	repeat(2) handleETest3();				// 2 handled, 3 left in box
+	repeat(2) handleETest3(); // 2 handled, 3 left in box
 	TEST_ASSERT_EQUAL(2, callsCounter);
 
-	repeat(10) publishEmpty(ETest3);			// 3 existed, 2 added, 8 lost;
+	repeat(10) publishEmpty(ETest3); // 3 existed, 2 added, 8 lost;
 
 	repeat(10) handleETest3();
 	TEST_ASSERT_EQUAL(7, callsCounter);

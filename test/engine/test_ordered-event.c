@@ -26,34 +26,22 @@ OrderedEvent(OEvent2, int, 2, defaultGroup)
 void test_ordering()
 {   
     // ev1 - 1
-    event(OEvent1, int* data)
+    event(OEvent1, int, data)
 	{
 		*data = 11;
-	} publish;
+	}
     
     // ev2 - 2
-    event(OEvent2, int* data)
-	{
-		*data = 22;
-	} publish;
+    event(OEvent2, int, data) *data = 22;
     
     // ev3 - 2
-    event(OEvent2, int* data)
-	{
-		*data = 32;
-	} publish;
+    event(OEvent2, int, data) *data = 32;
     
     // ev4 - 1
-    event(OEvent1, int* data)
-	{
-		*data = 41;
-	} publish;
+    event(OEvent1, int, data) *data = 41;
     
     // ev5 -2  - no more place
-    event(OEvent2, int* data)
-	{
-		*data = 51;
-	} publish;
+    event(OEvent2, int, data) *data = 51;
     
     // ev1 - 1
 	handleOEvent2();
@@ -84,16 +72,10 @@ void test_ordering()
 	TEST_ASSERT_EQUAL(41, lastCallId);
     
     // ev6 -2
-    event(OEvent2, int* data)
-	{
-		*data = 62;
-	} publish;
+    event(OEvent2, int, data) *data = 62;
     
      // ev7 - 1
-    event(OEvent1, int* data)
-	{
-		*data = 71;
-	} publish;
+    event(OEvent1, int, data) *data = 71;
     
     // ev6 - 2
     handleOEvent2();

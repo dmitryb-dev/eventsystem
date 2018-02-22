@@ -34,9 +34,10 @@ void* create##EventName() \
  * After writing to allocated memory is finished you must call function	\
  * below. \
  */	\
-void commit##EventName() \
+int commit##EventName() \
 { \
 	bufMan_writeStep(&EventName._bufManager, bufSize); \
+    return 0; \
 } \
 \
 void on##EventName(type *event); \
@@ -50,7 +51,7 @@ int handle##EventName() \
 	if (bufMan_hasNew(&EventName._bufManager)) \
 	{ \
 		on##EventName(&EventName._eventBuf[EventName._bufManager.readPos]);	\
-		bufMan_readStep(&EventName._bufManager, bufSize); \
+        bufMan_readStep(&EventName._bufManager, bufSize); \
 		return 1; \
 	} \
 	return 0; \

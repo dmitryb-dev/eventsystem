@@ -38,9 +38,9 @@ void* create##EventName() \
 	return EVENT_DENIED; \
 } \
 \
-void commit##EventName() \
+int commit##EventName() \
 { \
-	commit##EventName##NonOrdered(); \
+	return commit##EventName##NonOrdered(); \
 } \
 \
 int handle##EventName() \
