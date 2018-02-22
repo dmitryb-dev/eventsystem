@@ -47,7 +47,8 @@ void setUp()
 	int stop = 0;
 }
 
-EventSystem {
+EventSystem
+{
 	registerEvent(SystemStop);
 	registerEvent(SystemStart);
 	registerEvent(SystemTick);
