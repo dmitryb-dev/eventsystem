@@ -16,39 +16,39 @@ SystemTick
 }
 SystemStop {}
 
-EmptyEvent(E1, 3)
+Event(E1, 3)
 {
 	bindEvent(systemStep);
 }
-EmptyOrdered(E2, 2, defaultGroup)
+OrderedEvent(E2, 2, defaultGroup)
 {
 	bindEvent(systemStep);
 }
-Event(E3, int, 4)
+DataStream(E3, int, 4)
 {
 	bindData(accessData);
 	bindEvent(systemStep);
 }
-OrderedEvent(E4, int, 3, defaultGroup)
+OrderedDataStream(E4, int, 3, defaultGroup)
 {
 	bindData(accessData);
 	bindEvent(systemStep);
 }
 
-EmptyEvent(E5, 1)
+Event(E5, 1)
 {
 	bindEvent(systemStep);
 }
-EmptyOrdered(E6, 1, defaultGroup)
+OrderedEvent(E6, 1, defaultGroup)
 {
 	bindEvent(systemStep);
 }
-Event(E7, int, 1)
+DataStream(E7, int, 1)
 {
 	bindData(accessData);
 	bindEvent(systemStep);
 }
-OrderedEvent(E8, int, 1, defaultGroup)
+OrderedDataStream(E8, int, 1, defaultGroup)
 {
 	bindData(accessData);
 	bindEvent(systemStep);
@@ -79,13 +79,6 @@ void systemStep()
 	case 6: publishData(E7, int, data) *data = rand(); break;
 	case 7: publishData(E8, int, data) *data = rand(); break;
 	}
-}
-
-void setUp()
-{
-	int start = 0;
-	int tick = 0;
-	int stop = 0;
 }
 
 EventSystem

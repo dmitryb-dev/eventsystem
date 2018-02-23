@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "ordered-event.h"
+#include "ordered-stream.h"
 #include "dsl.h"
 #include "utils.h"
 
@@ -14,11 +14,11 @@ void setUp()
 	lastCallId = 0;
 }
 
-OrderedEvent(OEvent1, int, 2, defaultGroup)
+OrderedDataStream(OEvent1, int, 2, defaultGroup)
 {
     bindData(call);
 }
-OrderedEvent(OEvent2, int, 2, defaultGroup)
+OrderedDataStream(OEvent2, int, 2, defaultGroup)
 {
     bindData(call);
 }

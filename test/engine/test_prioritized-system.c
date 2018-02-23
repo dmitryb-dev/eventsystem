@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "empty-event.h"
+#include "event.h"
 #include "dsl.h"
 #include "utils.h"
 
@@ -13,15 +13,15 @@ void happened(int id)
 	orderOfEvents[eventsCounter++] = id;
 }
 
-EmptyEvent(HighEvent, 3)
+Event(HighEvent, 3)
 {
 	happened(1);
 }
-EmptyEvent(MediumEvent, 3)
+Event(MediumEvent, 3)
 {
 	happened(2);
 }
-EmptyEvent(LowEvent, 3)
+Event(LowEvent, 3)
 {
 	happened(3);
 }

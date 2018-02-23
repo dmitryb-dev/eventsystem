@@ -10,10 +10,10 @@
 #include "events/read-write-buf.h"
 #include "aliases.h"
 
+#include "events/data-stream.h"
 #include "events/event.h"
-#include "events/empty-event.h"
+#include "events/ordered-stream.h"
 #include "events/ordered-event.h"
-#include "events/empty-ordered.h"
 
 #include "events/lifecycle/start.h"
 #include "events/lifecycle/stop.h"

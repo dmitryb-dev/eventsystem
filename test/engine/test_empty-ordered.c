@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "empty-ordered.h"
+#include "ordered-event.h"
 #include "dsl.h"
 #include "utils.h"
 
@@ -19,11 +19,11 @@ void setUp()
 	lastCallId = callCounter = 0;
 }
 
-EmptyOrdered(OEvent1, 2, defaultGroup)
+OrderedEvent(OEvent1, 2, defaultGroup)
 {
     bindEvent(call1);
 }
-EmptyOrdered(OEvent2, 2, defaultGroup)
+OrderedEvent(OEvent2, 2, defaultGroup)
 {
     bindEvent(call2);
 }
