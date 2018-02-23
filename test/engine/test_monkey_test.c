@@ -5,58 +5,64 @@
 #include <stdlib.h>
 
 Component(int, ticksCounter) { return 0; }
+Component(int, eventsCounter) { return 0; }
+Component(int, lostEventsCounter) { return 0; }
 
 void accessData(int* value);
-void systemStep();
+void randomStep();
 void stop(int* value);
 
 SystemTick
 {
 	bindEventToComp(ticksCounter, stop);
 }
+SystemStart
+{
+    bindEvent(randomStep);
+}
 SystemStop {}
 
 Event(E1, 3)
 {
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
-OrderedEvent(E2, 2, defaultGroup)
+Event(E2, 2)
 {
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
 DataStream(E3, int, 4)
 {
 	bindData(accessData);
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
-OrderedDataStream(E4, int, 3, defaultGroup)
+DataStream(E4, int, 3)
 {
 	bindData(accessData);
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
 
 Event(E5, 1)
 {
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
-OrderedEvent(E6, 1, defaultGroup)
+Event(E6, 1)
 {
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
 DataStream(E7, int, 1)
 {
 	bindData(accessData);
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
-OrderedDataStream(E8, int, 1, defaultGroup)
+DataStream(E8, int, 1)
 {
 	bindData(accessData);
-	bindEvent(systemStep);
+	bindEvent(randomStep);
 }
 
 void stop(int* value)
 {
-	if ((*value)++ == 100000)
+	if ((*value)++ == 10000)
 	{
 		publishEvent(SystemStop);
 	}
@@ -65,20 +71,30 @@ void accessData(int* value)
 {
 	*value = rand();
 }
-void systemStep()
+void randomStep()
 {
+    int failOccurs = 0;
 	switch(rand() % 8)
 	{
-	case 0: publishEvent(E1); break;
-	case 1: publishEvent(E2); break;
-	case 2: publishData(E3, int, data) *data = rand(); break;
-	case 3: publishData(E4, int, data) *data = rand(); break;
+	case 0: publishEvent(E1) else failOccurs++; break;
+	case 1: publishEvent(E2) else failOccurs++; break;
+	case 2: publishData(E3, int, data) *data = rand(); else failOccurs++; break;
+	case 3: publishData(E4, int, data) *data = rand(); else failOccurs++; break;
 
-	case 4: publishEvent(E5); break;
-	case 5: publishEvent(E6); break;
-	case 6: publishData(E7, int, data) *data = rand(); break;
-	case 7: publishData(E8, int, data) *data = rand(); break;
+	case 4: publishEvent(E5) else failOccurs++; break;
+	case 5: publishEvent(E6) else failOccurs++; break;
+	case 6: publishData(E7, int, data) *data = rand(); else failOccurs++; break;
+	case 7: publishData(E8, int, data) *data = rand(); else failOccurs++; break;
 	}
+    if (failOccurs)
+    {
+        Value(lostEventsCounter)++;
+        randomStep();
+    }
+    else
+    {
+        Value(eventsCounter)++;
+    }
 }
 
 EventSystem
@@ -99,6 +115,8 @@ EventSystem
 		registerEvent(E3);
 		registerEvent(E6);
 		registerEvent(E8);
+        
+        registerEvent(SystemStart);
 		registerEvent(SystemStop);
 		registerEvent(SystemTick);
 	}
@@ -108,4 +126,9 @@ void test_run_without_fails()
 {
 	srand(time(0));
 	runEventSystem();
+    printf("Ticks: %d, events: %d, lost events: %d\n", 
+           Value(ticksCounter), 
+           Value(eventsCounter),
+           Value(lostEventsCounter)
+    );
 }
