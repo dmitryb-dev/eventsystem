@@ -42,9 +42,9 @@ void stopSystemOn3(int* value)
 
 void setUp()
 {
-	int start = 0;
-	int tick = 0;
-	int stop = 0;
+	Set(start, 0);
+	Set(tick, 0);
+	Set(stop, 0);
 }
 
 EventSystem

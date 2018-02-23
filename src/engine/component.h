@@ -11,7 +11,7 @@
 		if (!_evs_Component##Name##IsInitialized) \
 		{ \
 			_evs_Component##Name = _evs_create##Name(); \
-			_evs_Component##Name##IsInitialized++; \
+			_evs_Component##Name##IsInitialized = 1; \
 		} \
 		return &_evs_Component##Name; \
 	} \
@@ -22,6 +22,8 @@
 #define Create(Name) _evs_create##Name()
 
 #define Get(Name) _evs_initComponent##Name()
+#define Set(Name, value) *Get(Name) = value
+#define Reset(Name) _evs_Component##Name##IsInitialized = 0;
 
 
 #endif
