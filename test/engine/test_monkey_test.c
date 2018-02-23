@@ -26,7 +26,7 @@ Event(E1, 3)
 {
 	bindListener(randomStep);
 }
-Event(E2, 2)
+OrderedEvent(E2, 2, defaultGroup)
 {
 	bindListener(randomStep);
 }
@@ -35,7 +35,7 @@ DataStream(E3, int, 4)
 	bindHandler(accessData);
 	bindListener(randomStep);
 }
-DataStream(E4, int, 3)
+OrderedDataStream(E4, int, 3, defaultGroup)
 {
 	bindHandler(accessData);
 	bindListener(randomStep);
@@ -45,7 +45,7 @@ Event(E5, 1)
 {
 	bindListener(randomStep);
 }
-Event(E6, 1)
+OrderedEvent(E6, 1, defaultGroup)
 {
 	bindListener(randomStep);
 }
@@ -54,7 +54,7 @@ DataStream(E7, int, 1)
 	bindHandler(accessData);
 	bindListener(randomStep);
 }
-DataStream(E8, int, 1)
+OrderedDataStream(E8, int, 1, defaultGroup)
 {
 	bindHandler(accessData);
 	bindListener(randomStep);
