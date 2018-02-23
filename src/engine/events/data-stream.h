@@ -40,7 +40,7 @@ int _evs_commit##Name() \
     return 0; \
 } \
 \
-void _evs_on##Name(type *event); \
+void _evs_on##Name(type *data); \
 \
 /**	\
  * If event buffer has new message, it takes that message and call \
@@ -57,6 +57,6 @@ int _evs_handle##Name() \
 	return 0; \
 } \
 \
-void _evs_on##Name(type *event)
+void _evs_on##Name(type *data)
 
 #endif

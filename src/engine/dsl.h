@@ -6,8 +6,8 @@
 int _evs_ok;
 int _evs_fail;
 
-#define bindData(handler) handler(event)
-#define bindDataToComp(component, handler) handler(Get(component), event)
+#define bindData(handler) handler(data)
+#define bindDataToComp(component, handler) handler(Get(component), data)
 
 #define publishData(EventName, type, var) \
     for (type* var = _evs_create##EventName(); \

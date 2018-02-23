@@ -26,10 +26,10 @@ typedef struct _evs_Wrapper##Name \
 	 type wrapped; \
 } _evs_Wrapper##Name; \
 \
-void on##Name(type *event); \
+void on##Name(type *data); \
 DataStream(NonOrdered##Name, _evs_Wrapper##Name, bufSize) \
 { \
-	 on##Name(&event->wrapped); \
+	 on##Name(&data->wrapped); \
 } \
 \
 void* _evs_create##Name() \
@@ -64,6 +64,6 @@ int _evs_handle##Name() \
 	return 0; \
 } \
 \
-void on##Name(type *event)
+void on##Name(type *data)
 
 #endif
