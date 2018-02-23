@@ -1,89 +1,92 @@
 #include "unity.h"
-#include "ordered-stream.h"
+#include "ordered-event.h"
 #include "dsl.h"
 #include "utils.h"
 
+int callCounter;
 int lastCallId;
-void call(int* id)
+void call1()
 {
-	lastCallId = *id;
+	lastCallId = ++callCounter * 10 + 1;
+}
+void call2()
+{
+	lastCallId = ++callCounter * 10 + 2;
 }
 
 void setUp()
 {
-	lastCallId = 0;
+	lastCallId = callCounter = 0;
 }
 
-OrderedDataStream(OEvent1, int, 2, defaultGroup)
+OrderedEvent(OEvent1, 2, defaultGroup)
 {
-    bindData(call);
+    bindEvent(call1);
 }
-OrderedDataStream(OEvent2, int, 2, defaultGroup)
+OrderedEvent(OEvent2, 2, defaultGroup)
 {
-    bindData(call);
+    bindEvent(call2);
 }
 
 void test_ordering()
-{   
+{
     // ev1 - 1
-    publishData(OEvent1, int, data)
-	{
-		*data = 11;
-	}
-    
+	publishEvent(OEvent1);
+
     // ev2 - 2
-    publishData(OEvent2, int, data) *data = 22;
-    
+	publishEvent(OEvent2);
+
     // ev3 - 2
-    publishData(OEvent2, int, data) *data = 32;
-    
+	publishEvent(OEvent2);
+
     // ev4 - 1
-    publishData(OEvent1, int, data) *data = 41;
-    
+	publishEvent(OEvent1);
+
     // ev5 -2  - no more place
-    publishData(OEvent2, int, data) *data = 51;
-    
+	publishEvent(OEvent2);
+
+
     // ev1 - 1
 	_evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(0, lastCallId);
     _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(11, lastCallId);
-    
+
     // ev2 - 2
     _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(11, lastCallId);
     _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(22, lastCallId);
-    
+
     // ev3 - 2
     _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(32, lastCallId);
-    
+
     // ev4 - 1
     _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(32, lastCallId);
     _evs_handleOEvent1();
 	TEST_ASSERT_EQUAL(41, lastCallId);
-    
+
     // ev4 - 2 - no more place
     _evs_handleOEvent1();
     TEST_ASSERT_EQUAL(41, lastCallId);
     _evs_handleOEvent2();
 	TEST_ASSERT_EQUAL(41, lastCallId);
-    
-    // ev6 -2
-    publishData(OEvent2, int, data) *data = 62;
-    
+
+    // ev6 - 2
+	publishEvent(OEvent2);
+
      // ev7 - 1
-    publishData(OEvent1, int, data) *data = 71;
-    
+	publishEvent(OEvent1);
+
     // ev6 - 2
     _evs_handleOEvent2();
-	TEST_ASSERT_EQUAL(62, lastCallId);
-    
+	TEST_ASSERT_EQUAL(52, lastCallId);
+
     // ev7 - 1
     _evs_handleOEvent2();
-	TEST_ASSERT_EQUAL(62, lastCallId);
+	TEST_ASSERT_EQUAL(52, lastCallId);
     _evs_handleOEvent1();
-    TEST_ASSERT_EQUAL(71, lastCallId);
+    TEST_ASSERT_EQUAL(61, lastCallId);
 }
