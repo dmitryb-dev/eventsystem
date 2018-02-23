@@ -21,11 +21,11 @@ void setUp()
 
 OrderedEvent(OEvent1, 2, defaultGroup)
 {
-    bindEvent(call1);
+    bindListener(call1);
 }
 OrderedEvent(OEvent2, 2, defaultGroup)
 {
-    bindEvent(call2);
+    bindListener(call2);
 }
 
 void test_ordering()

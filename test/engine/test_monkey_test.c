@@ -14,50 +14,50 @@ void stop(int* value);
 
 SystemTick
 {
-	bindEventToComp(ticksCounter, stop);
+	bindListenerComp(ticksCounter, stop);
 }
 SystemStart
 {
-    bindEvent(randomStep);
+    bindListener(randomStep);
 }
 SystemStop {}
 
 Event(E1, 3)
 {
-	bindEvent(randomStep);
+	bindListener(randomStep);
 }
 Event(E2, 2)
 {
-	bindEvent(randomStep);
+	bindListener(randomStep);
 }
 DataStream(E3, int, 4)
 {
-	bindData(accessData);
-	bindEvent(randomStep);
+	bindHandler(accessData);
+	bindListener(randomStep);
 }
 DataStream(E4, int, 3)
 {
-	bindData(accessData);
-	bindEvent(randomStep);
+	bindHandler(accessData);
+	bindListener(randomStep);
 }
 
 Event(E5, 1)
 {
-	bindEvent(randomStep);
+	bindListener(randomStep);
 }
 Event(E6, 1)
 {
-	bindEvent(randomStep);
+	bindListener(randomStep);
 }
 DataStream(E7, int, 1)
 {
-	bindData(accessData);
-	bindEvent(randomStep);
+	bindHandler(accessData);
+	bindListener(randomStep);
 }
 DataStream(E8, int, 1)
 {
-	bindData(accessData);
-	bindEvent(randomStep);
+	bindHandler(accessData);
+	bindListener(randomStep);
 }
 
 void stop(int* value)

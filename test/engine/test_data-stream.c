@@ -16,7 +16,7 @@ void setUp()
 
 DataStream(Test1, int, 2)
 {
-	bindData(lastCallSetter);
+	bindHandler(lastCallSetter);
 }
 void test_workflow()
 {
@@ -34,7 +34,7 @@ void test_workflow()
 
 DataStream(Test2, int, 2)
 {
-	bindData(lastCallSetter);
+	bindHandler(lastCallSetter);
 }
 void test_write_until_end()
 {
@@ -57,7 +57,7 @@ void test_write_until_end()
 
 DataStream(Test3, int, 2)
 {
-	bindData(lastCallSetter);
+	bindHandler(lastCallSetter);
 }
 void test_write_on_free_again_space()
 {
@@ -89,7 +89,7 @@ void test_write_on_free_again_space()
 
 DataStream(Test4, int, 2)
 {
-	bindData(lastCallSetter);
+	bindHandler(lastCallSetter);
 }
 void test_on_fail()
 {

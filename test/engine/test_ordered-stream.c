@@ -16,11 +16,11 @@ void setUp()
 
 OrderedDataStream(OEvent1, int, 2, defaultGroup)
 {
-    bindData(call);
+    bindHandler(call);
 }
 OrderedDataStream(OEvent2, int, 2, defaultGroup)
 {
-    bindData(call);
+    bindHandler(call);
 }
 
 void test_ordering()

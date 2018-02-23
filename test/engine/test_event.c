@@ -16,7 +16,7 @@ void setUp()
 
 Event(ETest1, 3)
 {
-	bindEvent(call);
+	bindListener(call);
 }
 void test_nothing_to_read()
 {
@@ -26,7 +26,7 @@ void test_nothing_to_read()
 
 Event(ETest2, 5)
 {
-	bindEvent(call);
+	bindListener(call);
 }
 void test_written_3_read_3()
 {
@@ -38,7 +38,7 @@ void test_written_3_read_3()
 
 Event(ETest3, 5)
 {
-	bindEvent(call);
+	bindListener(call);
 }
 void test_overflow()
 {

@@ -16,16 +16,16 @@ void stopSystemOn3(int* value);
 
 SystemStart
 {
-	bindEventToComp(start, increment);
+	bindListenerComp(start, increment);
 }
 SystemTick
 {
-	bindEventToComp(tick, increment);
-	bindEventToComp(tick, stopSystemOn3);
+	bindListenerComp(tick, increment);
+	bindListenerComp(tick, stopSystemOn3);
 }
 SystemStop
 {
-	bindEventToComp(stop, increment);
+	bindListenerComp(stop, increment);
 }
 
 void increment(int* value)
