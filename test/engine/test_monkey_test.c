@@ -1,6 +1,7 @@
 #include "unity.h"
-#include "events-engine.h"
+#define SYSTEM_LIFECYCLE
 #include "prioritized-system.h"
+#include "events-engine.h"
 #include <time.h>
 #include <stdlib.h>
 
@@ -115,10 +116,6 @@ EventSystem
 		registerEvent(E3);
 		registerEvent(E6);
 		registerEvent(E8);
-        
-        registerEvent(SystemStart);
-		registerEvent(SystemStop);
-		registerEvent(SystemTick);
 	}
 }
 
@@ -131,4 +128,6 @@ void test_run_without_fails()
            Value(eventsCounter),
            Value(lostEventsCounter)
     );
+    TEST_ASSERT_GREATER_THAN(9999, Value(ticksCounter));
+    TEST_ASSERT_GREATER_THAN(5000, Value(eventsCounter));
 }
