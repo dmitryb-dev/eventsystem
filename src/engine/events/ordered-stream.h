@@ -2,66 +2,39 @@
 #define SYSTEM_ORDERED_STREAM_H
 
 #include "aliases.h"
-#include "data-stream.h"
-
-/*
- * Ordered events come in order within a group. Ordering of
- * events of differents group is not garanted.
- */
-typedef struct Group
-{
-	char nextWriteId;
-	char nextReadId;
-} Group;
-Group defaultGroup;
+#include "ordered-base.h"
 
 /*
  * See event.h for details.
  */
 #define OrderedDataStream(Name, type, bufSize, group)  \
 \
-typedef struct _evs_Wrapper##Name \
+typedef struct _evs_DataWrapper##Name \
 { \
 	 char id; \
 	 type wrapped; \
-} _evs_Wrapper##Name; \
+} _evs_DataWrapper##Name; \
 \
 void on##Name(type *data); \
-DataStream(NonOrdered##Name, _evs_Wrapper##Name, bufSize) \
+OrderedBase(__Base##Name, _evs_Wrapper##Name, bufSize, group, _evs_DataWrapper##Name) \
 { \
 	 on##Name(&data->wrapped); \
 } \
 \
 void* _evs_create##Name() \
 { \
-	_evs_Wrapper##Name* wrapper = _evs_createNonOrdered##Name(); \
-    if (wrapper) \
-    { \
-        wrapper->id = group.nextWriteId++; \
-        return &wrapper->wrapped; \
-    } \
-	return EVENT_DENIED; \
+	_evs_DataWrapper##Name* wrapper = _evs_create__Base##Name(); \
+	return wrapper? &wrapper->wrapped : EVENT_DENIED; \
 } \
 \
 int _evs_commit##Name() \
 { \
-	return _evs_commitNonOrdered##Name(); \
+	return _evs_commit__Base##Name(); \
 } \
 \
 int _evs_handle##Name() \
 { \
-	if (bufMan_hasNew(&_evs_NonOrdered##Name._bufManager)) \
-	{ \
-		int index = _evs_NonOrdered##Name._bufManager.readPos; \
-		_evs_Wrapper##Name* wrapper = &_evs_NonOrdered##Name._eventBuf[index]; \
-		if (group.nextReadId == wrapper->id) \
-		{ \
-			_evs_handleNonOrdered##Name(); \
-			group.nextReadId++; \
-			return 1; \
-		} \
-	} \
-	return 0; \
+	return _evs_handle__Base##Name(); \
 } \
 \
 void on##Name(type *data)
