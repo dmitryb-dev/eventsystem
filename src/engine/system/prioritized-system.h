@@ -60,8 +60,8 @@ char _evs_somethingWasHandled; // default value for low level
 
 
 #define registerEvent(EventName) \
-	_evs_somethingWasHandled += _evs_handle##EventName(); \
-	if (!_evs_isHighestLevel) while(_evs_handleHighestPriority())
+    if (!_evs_isHighestLevel) while(_evs_handleHighestPriority()); \
+	_evs_somethingWasHandled += _evs_handle##EventName()
 
 
 void _evs_systemStep()

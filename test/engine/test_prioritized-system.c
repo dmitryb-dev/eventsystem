@@ -51,20 +51,20 @@ void test_array()
 
 	_evs_systemStep();
 
-	int expectedOrderOfEvents1[] = { 2, 1, 1, 1, 2, 2, 3, 0, 0, 0 };
+	int expectedOrderOfEvents1[] = { 1, 1, 1, 2, 2, 2, 3, 0, 0, 0 };
 	TEST_ASSERT_EQUAL_INT_ARRAY(expectedOrderOfEvents1, orderOfEvents, 10);
 
 
 	_evs_systemStep();
 
-	int expectedOrderOfEvents2[] = { 2, 1, 1, 1, 2, 2, 3, 3, 0, 0 };
+	int expectedOrderOfEvents2[] = { 1, 1, 1, 2, 2, 2, 3, 3, 0, 0 };
 	TEST_ASSERT_EQUAL_INT_ARRAY(expectedOrderOfEvents2, orderOfEvents, 10);
 
 
 	publishEvent(HighEvent)
 	_evs_systemStep();
 
-	int expectedOrderOfEvents3[] = { 2, 1, 1, 1, 2, 2, 3, 3, 1, 3 };
+	int expectedOrderOfEvents3[] = { 1, 1, 1, 2, 2, 2, 3, 3, 1, 3 };
 	TEST_ASSERT_EQUAL_INT_ARRAY(expectedOrderOfEvents3, orderOfEvents, 10);
 }
 
