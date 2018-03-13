@@ -40,7 +40,7 @@ void test_ordering()
     // ev4 - 1
     publishData(OEvent1, int* data) *data = 41;
     
-    // ev5 -2  - no more place
+    // ev5 - 2  - no more place
     publishData(OEvent2, int* data) *data = 51;
     
     // ev1 - 1

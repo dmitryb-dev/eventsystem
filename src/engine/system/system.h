@@ -12,19 +12,22 @@ void _evs_systemStep();
 
 void runEventSystem()
 {
-#ifdef SYSTEM_LIFECYCLE
-	_evs_handleSystemStart();
-#endif
+    #ifdef SYSTEM_LIFECYCLE
+	   _evs_handleSystemStart();
+    #endif
+    
 	while(!_evs_isEventSystemStopped)
 	{
-#ifdef SYSTEM_LIFECYCLE
-		_evs_handleSystemTick();
-#endif
+        #ifdef SYSTEM_LIFECYCLE
+            _evs_handleSystemTick();
+        #endif
+        
 		_evs_systemStepId++;
 		_evs_systemStep();
-#ifdef SYSTEM_LIFECYCLE
-	_evs_handleSystemStop();
-#endif
+        
+        #ifdef SYSTEM_LIFECYCLE
+	       _evs_handleSystemStop();
+        #endif
 	}
 }
 
