@@ -56,6 +56,8 @@ int _evs_handle##Name() \
 	} \
 	return 0; \
 } \
+/* For dsl, see dsl.h, publishData */ \
+void* _evs_state##Name; \
 \
 void _evs_on##Name(type *data)
 

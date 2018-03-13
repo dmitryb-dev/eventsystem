@@ -15,10 +15,10 @@ typedef struct _evs_DataWrapper##Name \
 	 type wrapped; \
 } _evs_DataWrapper##Name; \
 \
-void on##Name(type *data); \
+void _evs_on##Name(type *data); \
 OrderedBase(__Base##Name, _evs_Wrapper##Name, bufSize, group, _evs_DataWrapper##Name) \
 { \
-	 on##Name(&data->wrapped); \
+	 _evs_on##Name(&data->wrapped); \
 } \
 \
 void* _evs_create##Name() \
@@ -37,6 +37,8 @@ int _evs_handle##Name() \
 	return _evs_handle__Base##Name(); \
 } \
 \
-void on##Name(type *data)
+void* _evs_state##Name; \
+\
+void _evs_on##Name(type *data)
 
 #endif

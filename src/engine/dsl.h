@@ -15,12 +15,12 @@
 
 int _evs_ok;
 int _evs_fail;
-#define publishData(EventName, type, var) \
-    for (type* var = _evs_create##EventName(); \
-         (var != &_evs_ok && var != &_evs_fail) || \
-         (var == &_evs_ok && _evs_commit##EventName()); \
-         var = var? &_evs_ok : &_evs_fail \
-    ) if (var)
+#define publishData(EventName, varDef) \
+    for (varDef = _evs_state##EventName = _evs_create##EventName(); \
+         (_evs_state##EventName != &_evs_ok && _evs_state##EventName != &_evs_fail) || \
+         (_evs_state##EventName == &_evs_ok && _evs_commit##EventName()); \
+         _evs_state##EventName = _evs_state##EventName? &_evs_ok : &_evs_fail \
+    ) if (_evs_state##EventName)
 
 #define handleEvent(Name) _evs_handle##Name();
 

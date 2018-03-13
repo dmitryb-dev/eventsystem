@@ -20,7 +20,7 @@ DataStream(Test1, int, 2)
 }
 void test_workflow()
 {
-	publishData(Test1, int, data)
+	publishData(Test1, int* data)
 	{
 		*data = 4;
 	}
@@ -38,12 +38,12 @@ DataStream(Test2, int, 2)
 }
 void test_write_until_end()
 {
-	publishData(Test2, int, data) *data = 4;
+	publishData(Test2, int* data) *data = 4;
 
-	publishData(Test2, int, data) *data = 7;
+	publishData(Test2, int* data) *data = 7;
 
 	// Lost
-	publishData(Test2, int, data) *data = 11;
+	publishData(Test2, int* data) *data = 11;
     
 	handleEvent(Test2);
 	TEST_ASSERT_EQUAL(4, lastCallValue);
@@ -61,16 +61,16 @@ DataStream(Test3, int, 2)
 }
 void test_write_on_free_again_space()
 {
-	publishData(Test3, int, data) *data = 3;
+	publishData(Test3, int* data) *data = 3;
 
 	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(3, lastCallValue);
 
-	publishData(Test3, int, data) *data = 11;
-	publishData(Test3, int, data) *data = 12;
+	publishData(Test3, int* data) *data = 11;
+	publishData(Test3, int* data) *data = 12;
 
 	// Lost
-	publishData(Test3, int, data) *data = 14;
+	publishData(Test3, int* data) *data = 14;
 
 	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(11, lastCallValue);
@@ -81,7 +81,7 @@ void test_write_on_free_again_space()
 	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(12, lastCallValue);
 
-	publishData(Test3, int, data) *data = 15;
+	publishData(Test3, int* data) *data = 15;
 
 	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(15, lastCallValue);
@@ -97,7 +97,7 @@ void test_on_fail()
 
 	forInts(1, 3, i)
 	{
-		publishData(Test4, int, data)
+		publishData(Test4, int* data)
 		{
 			*data = i;
 		}
@@ -110,7 +110,7 @@ void test_on_fail()
 	TEST_ASSERT_EQUAL(0, lastCallValue);
 	TEST_ASSERT_EQUAL(0, isFail);
 
-	publishData(Test4, int, data)
+	publishData(Test4, int* data)
 	{
 		*data = 3;
 	}
@@ -124,7 +124,7 @@ void test_on_fail()
 
 	handleEvent(Test4);
 
-	publishData(Test4, int, data)
+	publishData(Test4, int* data)
 	{
 		*data = 4;
 	}

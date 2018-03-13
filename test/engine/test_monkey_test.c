@@ -79,13 +79,13 @@ void randomStep()
 	{
 	case 0: publishEvent(E1) else failOccurs++; break;
 	case 1: publishEvent(E2) else failOccurs++; break;
-	case 2: publishData(E3, int, data) *data = rand(); else failOccurs++; break;
-	case 3: publishData(E4, int, data) *data = rand(); else failOccurs++; break;
+	case 2: publishData(E3, int* data) *data = rand(); else failOccurs++; break;
+	case 3: publishData(E4, int* data) *data = rand(); else failOccurs++; break;
 
 	case 4: publishEvent(E5) else failOccurs++; break;
 	case 5: publishEvent(E6) else failOccurs++; break;
-	case 6: publishData(E7, int, data) *data = rand(); else failOccurs++; break;
-	case 7: publishData(E8, int, data) *data = rand(); else failOccurs++; break;
+	case 6: publishData(E7, int* data) *data = rand(); else failOccurs++; break;
+	case 7: publishData(E8, int* data) *data = rand(); else failOccurs++; break;
 	}
     if (failOccurs)
     {

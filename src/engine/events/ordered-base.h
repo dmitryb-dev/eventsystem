@@ -20,10 +20,10 @@ Group defaultGroup;
  */
 #define OrderedBase(Name, type, bufSize, group, Wrapper)  \
 \
-void on##Name(Wrapper *data); \
+void _evs_on##Name(Wrapper *data); \
 DataStream(NonOrdered##Name, Wrapper, bufSize) \
 { \
-	 on##Name(data); \
+    _evs_on##Name(data); \
 } \
 \
 void* _evs_create##Name() \
@@ -58,6 +58,6 @@ int _evs_handle##Name() \
 	return 0; \
 } \
 \
-void on##Name(Wrapper *data)
+void _evs_on##Name(Wrapper *data)
 
 #endif
