@@ -16,7 +16,7 @@ typedef struct Group
 Group defaultGroup;
 
 /*
- * See event.h for details.
+ * See data-stream.h for details.
  */
 #define OrderedBase(Name, type, bufSize, group, Wrapper)  \
 \

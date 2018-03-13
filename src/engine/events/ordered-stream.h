@@ -5,7 +5,7 @@
 #include "ordered-base.h"
 
 /*
- * See event.h for details.
+ * See data-stream.h for details.
  */
 #define OrderedDataStream(Name, type, bufSize, group)  \
 \

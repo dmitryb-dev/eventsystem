@@ -4,7 +4,7 @@
 #include "read-write-buf.h"
 
 /*
- * See event.h for more info.
+ * See data-stream.h for more info.
  */ 
 #define Event(Name, bufSize) \
 \
