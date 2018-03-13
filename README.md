@@ -33,6 +33,7 @@ Let say we have next code:
 	}
 	
 Disadvantages of this approach are obvious:
+
 - Thread unsafity: what will be when we try to read temperature in `handle_temp_change` while `temp_measurement_interrupt` is writing new value?
 - Leak of values, when several values have come but not yet handled, previous values is lost.
 - Boilerplate code.
@@ -236,4 +237,64 @@ Also you can omit registratrion of events by `#define SYSTEM_LIFECYCLE`. But in 
 
 	EventSystem { /* All events will be registered automaticaly */ }
 	
-If you want to stop system, you can publish stop event: `publishEvent(SystemStop)`. After that, loop in runEventSystem will be break.
+If you want to stop system, you can publish stop event: `publishEvent(SystemStop)`. After that, loop in runEventSystem will be broken.
+
+## Components ##
+
+### Lifecicle ###
+
+It just a additional util to avoid using global variables.
+
+	struct TemperatureSensor 
+	{
+		double id;
+		double value;
+		double precission;
+	}
+	Component(TemperatureSensor, DefaultTemparatureSensor) // DefaultTemparatureSensor - just a name
+	{
+		TemperatureSensor sensor = ...
+		return sensor;
+	}
+	
+After that you can call Get(DefaultTemparatureSensor) to acquire pointer to component. It creates singleton, instance will be created automatically. Bear in mind, that it add `if` condition to check is component was created or not 
+every time, when you call Get(...). If you want to acquire value instead of pointer you can call `Value(ComponentName)` instead.
+So next lines do the same things:
+
+	*Get(Comp) = ...
+	Set(Comp, ...)
+	Value(Comp) = ...
+	
+If you want to reset component state and call init code, defined in `Component(...) { init code }`, you can call `Reset(Comp)`
+
+To create new Comoponent instead of acquiring of existing global you can call `Create(Comp)`:
+
+	Component(int, IntegerComp)
+	{
+		return 3;
+	}
+	void main()
+	{
+		int *a = Get(IntegerComp); // a = 3;
+		int *b = &Create(IntegerComp); // b = 3
+		Set(IntegerComp, 777); // a = 777, b = 3
+	}
+	
+### Binding to events ###
+
+You can use components inside of any event:
+
+	Component(int, dataComp) { return 3; }
+	Component(char, tickComp) { return 7; }
+
+	void dataHandler(int *dataComp, double *arrivedData) { ... }
+	void tickListener(char *tickComp) { ... } 
+
+	DataStream(Data, double, 3)
+	{
+		bindHandlerComp(dataComp, dataHandler);
+	}
+	SystemTick
+	{
+		bindListenerComp(tickComp, tickListener);
+	}
