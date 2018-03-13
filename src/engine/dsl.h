@@ -10,8 +10,12 @@
 #define publishEvent(EventType) if (_evs_publish##EventType()) {}
 
 
-#define bindHandler(handler) handler(data)
-#define bindHandlerComp(component, handler) handler(Get(component), data)
+#define getStreamData() data
+#define getStreamDataValue() *data
+
+
+#define bindHandler(handler) handler(getStreamData())
+#define bindHandlerComp(component, handler) handler(Get(component), getStreamData())
 
 int _evs_ok;
 int _evs_fail;
