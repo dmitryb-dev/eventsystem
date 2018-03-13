@@ -27,7 +27,7 @@ void test_workflow()
 
 	TEST_ASSERT_EQUAL(0, lastCallValue);
 
-	_evs_handleTest1();
+	handleEvent(Test1);
 	TEST_ASSERT_EQUAL(4, lastCallValue);
 }
 
@@ -45,13 +45,13 @@ void test_write_until_end()
 	// Lost
 	publishData(Test2, int, data) *data = 11;
     
-	_evs_handleTest2();
+	handleEvent(Test2);
 	TEST_ASSERT_EQUAL(4, lastCallValue);
     
-	_evs_handleTest2();
+	handleEvent(Test2);
 	TEST_ASSERT_EQUAL(7, lastCallValue);
 
-	_evs_handleTest2();
+	handleEvent(Test2);
 	TEST_ASSERT_EQUAL(7, lastCallValue);
 }
 
@@ -63,7 +63,7 @@ void test_write_on_free_again_space()
 {
 	publishData(Test3, int, data) *data = 3;
 
-	_evs_handleTest3();
+	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(3, lastCallValue);
 
 	publishData(Test3, int, data) *data = 11;
@@ -72,18 +72,18 @@ void test_write_on_free_again_space()
 	// Lost
 	publishData(Test3, int, data) *data = 14;
 
-	_evs_handleTest3();
+	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(11, lastCallValue);
 
-	_evs_handleTest3();
+	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(12, lastCallValue);
 
-	_evs_handleTest3();
+	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(12, lastCallValue);
 
 	publishData(Test3, int, data) *data = 15;
 
-	_evs_handleTest3();
+	handleEvent(Test3);
 	TEST_ASSERT_EQUAL(15, lastCallValue);
 }
 
@@ -122,7 +122,7 @@ void test_on_fail()
 	TEST_ASSERT_EQUAL(0, lastCallValue);
 	TEST_ASSERT_EQUAL(4, isFail);
 
-	_evs_handleTest4();
+	handleEvent(Test4);
 
 	publishData(Test4, int, data)
 	{

@@ -22,4 +22,6 @@ int _evs_fail;
          var = var? &_evs_ok : &_evs_fail \
     ) if (var)
 
+#define handleEvent(Name) _evs_handle##Name();
+
 #endif

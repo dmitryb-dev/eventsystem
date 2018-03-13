@@ -47,31 +47,31 @@ void test_ordering()
 
 
     // ev1 - 1
-	_evs_handleOEvent2();
+	handleEvent(OEvent2);
 	TEST_ASSERT_EQUAL(0, lastCallId);
-    _evs_handleOEvent1();
+    handleEvent(OEvent1);
 	TEST_ASSERT_EQUAL(11, lastCallId);
 
     // ev2 - 2
-    _evs_handleOEvent1();
+    handleEvent(OEvent1);
 	TEST_ASSERT_EQUAL(11, lastCallId);
-    _evs_handleOEvent2();
+    handleEvent(OEvent2);
 	TEST_ASSERT_EQUAL(22, lastCallId);
 
     // ev3 - 2
-    _evs_handleOEvent2();
+    handleEvent(OEvent2);
 	TEST_ASSERT_EQUAL(32, lastCallId);
 
     // ev4 - 1
-    _evs_handleOEvent2();
+    handleEvent(OEvent2);
 	TEST_ASSERT_EQUAL(32, lastCallId);
-    _evs_handleOEvent1();
+    handleEvent(OEvent1);
 	TEST_ASSERT_EQUAL(41, lastCallId);
 
     // ev4 - 2 - no more place
-    _evs_handleOEvent1();
+    handleEvent(OEvent1);
     TEST_ASSERT_EQUAL(41, lastCallId);
-    _evs_handleOEvent2();
+    handleEvent(OEvent2);
 	TEST_ASSERT_EQUAL(41, lastCallId);
 
     // ev6 - 2
@@ -81,12 +81,12 @@ void test_ordering()
 	publishEvent(OEvent1);
 
     // ev6 - 2
-    _evs_handleOEvent2();
+    handleEvent(OEvent2);
 	TEST_ASSERT_EQUAL(52, lastCallId);
 
     // ev7 - 1
-    _evs_handleOEvent2();
+    handleEvent(OEvent2);
 	TEST_ASSERT_EQUAL(52, lastCallId);
-    _evs_handleOEvent1();
+    handleEvent(OEvent1);
     TEST_ASSERT_EQUAL(61, lastCallId);
 }

@@ -20,7 +20,7 @@ Event(ETest1, 3)
 }
 void test_nothing_to_read()
 {
-	_evs_handleETest1();
+	handleEvent(ETest1);
 	TEST_ASSERT_EQUAL(0, callsCounter);
 }
 
@@ -32,7 +32,7 @@ void test_written_3_read_3()
 {
 	repeat(3) publishEvent(ETest2);
 
-	repeat(7) _evs_handleETest2();
+	repeat(7) handleEvent(ETest2);
 	TEST_ASSERT_EQUAL(3, callsCounter);
 }
 
@@ -44,11 +44,11 @@ void test_overflow()
 {
 	repeat(10) publishEvent(ETest3); // max 5, 5 lost
 
-	repeat(2) _evs_handleETest3(); // 2 _evs_handled, 3 left in box
+	repeat(2) handleEvent(ETest3); // 2 handled, 3 left in box
 	TEST_ASSERT_EQUAL(2, callsCounter);
 
 	repeat(10) publishEvent(ETest3); // 3 existed, 2 added, 8 lost;
 
-	repeat(10) _evs_handleETest3();
+	repeat(10) handleEvent(ETest3);
 	TEST_ASSERT_EQUAL(7, callsCounter);
 }
