@@ -12,6 +12,8 @@ void _evs_systemStep();
 
 void runEventSystem()
 {
+    _evs_isEventSystemStopped = 0;
+    
     #ifdef SYSTEM_LIFECYCLE
 	   _evs_handleSystemStart();
     #endif

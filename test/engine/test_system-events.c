@@ -49,7 +49,7 @@ void setUp()
 
 EventSystem
 {
-	registerEvent(SystemStop);
+	HighPriority(registerEvent(SystemStop));
 	registerEvent(SystemStart);
 	registerEvent(SystemTick);
 }

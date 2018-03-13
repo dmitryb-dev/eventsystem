@@ -6,7 +6,7 @@
 
 #define registerEvent(EventName) _evs_handle##EventName()
 
-#define HighPriority(eventRegistration) while(eventRegistration);
+#define HighPriority(eventRegistration) while(eventRegistration)
 
 #define EventSystem void _evs_systemStep()
 
