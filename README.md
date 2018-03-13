@@ -8,7 +8,6 @@ There is a library that helps you to orginize your code for embedded systems. Th
 
 Let say we have next code:
 
-	#
     double temperature;
 	char has_new_measurement;
     void temp_measurement_interrupt() 
@@ -65,7 +64,6 @@ Disadvantages of this approach are obvious:
 	
 Lets look at example above. Firstly you should declare channel with next code:
 
-	#
     DataStream(TemperatureMeasured, double, 3)
 	{
 		bindHandler(handle_temp_change);
@@ -74,7 +72,6 @@ Lets look at example above. Firstly you should declare channel with next code:
 It means that we have channerl named `TemperatureMeasured`, with message type `double` and size `3`. So channel can store 3 messages. When more than 3 messages is come without handling, the new one will be lost.
 And when some message is come `handle_temp_change` will be executed.
 
-	#
 	void temp_measurement_interrupt() 
 	{
 		publishData(TemperatureMeasured, double* temperature) *temperature = ...
@@ -82,7 +79,6 @@ And when some message is come `handle_temp_change` will be executed.
 	
 `publishData` enables us to put some data into channel. Some place in channel will be allocated and become available via `temperature` pointer. Also you can put your code between brackets:
 
-	#
 	void temp_measurement_interrupt() 
 	{
 		publishData(TemperatureMeasured, double* temperature) 
@@ -101,7 +97,6 @@ At the end we run hanling mechanism with `handleEvent(TemperatureMeasured)`. It 
 
 You can handle data right in stream definition without writing separate function.
 
-	#
 	DataStream(KeyboardInput, int, 7)
 	{
 		int* keyCodePointer = getStreamData();
@@ -117,7 +112,6 @@ You can handle data right in stream definition without writing separate function
 
 If you need just to notify about some event without any data inside, you can declare it as event:
 	
-	#
 	Event(PowerButtonPressed, 3)
 	{
 		bindListener(toggleDisplaySate);
@@ -127,7 +121,6 @@ If you need just to notify about some event without any data inside, you can dec
 
 You can guruntee, that some events won't be available before other event has handled:
 
-	#
 	OrderedEvent(EventA, 2, defaultGroup) {}
 	OrderedDataStream(EventB, int, 3, defaultGroup) {}
 	
@@ -138,7 +131,6 @@ You can specify you own group with next definition: `Group keaboardGroup;`. So e
 
 You can put data with next construction:
 
-	#
 	publishData(DataCome, double* data) 
 	{
 		*data = ...
@@ -146,7 +138,6 @@ You can put data with next construction:
 	
 All data inside of brackets is thead safe, so it's not recomended to do something with data pointer outside of block. If you have just one expression curly brackets can be omitted:
 
-	#
 	publishData(DataCome, double* data) *data = ...
 	
 Pay attantion to that it works only for DataStream and OrderedDataStream. If you want to fire event, you have to use `publishEvent(EventName)` construction.
@@ -155,7 +146,6 @@ Pay attantion to that it works only for DataStream and OrderedDataStream. If you
 
 If channel doesn't have enough space for new message code within blocks won't be executed. If you want to handle this situation you can just write `else` section:
 
-	#
 	publishData(DataArrived, int* value) { }
 	else
 	{
@@ -181,7 +171,6 @@ You don't have need for write main function with handleEvent(...) calls chain. I
 
 You can make some events more importent than others. So, when system is handling EventA it proccess all messages that lay in channel during one Event System Step, not just one as in case of EventB:
 
-	#
 	EventSystem
 	{
 		HighPriorityregisterEvent(EventA);
@@ -218,7 +207,6 @@ In addition for previous we will have handling of all events with high priority 
 
 If you want to do something in special cases you can defclare and register system events:
 
-	#
 	SystemStart
 	{
 		bindListener(init);
@@ -257,7 +245,6 @@ If you want to stop system, you can publish stop event: `publishEvent(SystemStop
 
 It just a additional util to avoid using global variables.
 
-	#
 	struct TemperatureSensor 
 	{
 		double id;
@@ -274,7 +261,6 @@ After that you can call Get(DefaultTemparatureSensor) to acquire pointer to comp
 every time, when you call Get(...). If you want to acquire value instead of pointer you can call `Value(ComponentName)` instead.
 So next lines do the same things:
 
-	#
 	*Get(Comp) = ...
 	Set(Comp, ...)
 	Value(Comp) = ...
@@ -283,7 +269,6 @@ If you want to reset component state and call init code, defined in `Component(.
 
 To create new Comoponent instead of acquiring of existing global you can call `Create(Comp)`:
 
-	#
 	Component(int, IntegerComp)
 	{
 		return 3;
@@ -299,7 +284,6 @@ To create new Comoponent instead of acquiring of existing global you can call `C
 
 You can use components inside of any event:
 
-	#
 	Component(int, dataComp) { return 3; }
 	Component(char, tickComp) { return 7; }
 
