@@ -8,16 +8,16 @@ There is a library that helps you to orginize your code for embedded systems. Th
 
 Let say we have next code:
 
-    double temperature;
+	double temperature;
 	char has_new_measurement;
-    void temp_measurement_interrupt() 
+	void temp_measurement_interrupt() 
 	{
-	    temperature = ...
+		temperature = ...
 		has_new_measurement = 1;
 	}
 	void handle_temp_change() 
 	{
-		... // do something with tmperature
+		... // do something with temperature
 		has_new_measurement = 0;
 	}
 	void main() 
@@ -34,12 +34,12 @@ Let say we have next code:
 	
 Disadvantages of this approach are obvious:
 
-- Thread unsafity: what will be when we try to read temperature in `handle_temp_change` while `temp_measurement_interrupt` is writing new value?
-- Leak of values, when several values have come but not yet handled, previous values is lost.
+- Thread unsafity: what will be when we try to read temperature in `handle_temp_change` while `temp_measurement_interrupt` is writing a new value?
+- Leak of values, when several values have come, but not yet handled. Previous values are lost.
 - Boilerplate code.
 - Global variables.
  
- So with messages channel it can be changed to next:
+ So with a messages channel it can be changed to next:
  	
 	#include "events-engine.h"
  
@@ -62,22 +62,22 @@ Disadvantages of this approach are obvious:
 		while(1) handleEvent(TemperatureMeasured);
 	}
 	
-Lets look at example above. Firstly you should declare channel with next code:
+Lets look at example above. Firstly you should declare a channel with next code:
 
-    DataStream(TemperatureMeasured, double, 3)
+	DataStream(TemperatureMeasured, double, 3)
 	{
 		bindHandler(handle_temp_change);
 	}
 	
-It means that we have channerl named `TemperatureMeasured`, with message type `double` and size `3`. So channel can store 3 messages. When more than 3 messages is come without handling, the new one will be lost.
-And when some message is come `handle_temp_change` will be executed.
+It means that we have the channel named `TemperatureMeasured`, with the message type `double` and the size `3`. So the channel can store 3 messages. When more than 3 messages is come without handling, the new one will be lost.
+And when some message is come, `handle_temp_change` will be executed.
 
 	void temp_measurement_interrupt() 
 	{
 		publishData(TemperatureMeasured, double* temperature) *temperature = ...
 	}
 	
-`publishData` enables us to put some data into channel. Some place in channel will be allocated and become available via `temperature` pointer. Also you can put your code between brackets:
+`publishData` enables us to put some data into the channel. Some place in the channel will be allocated and become available via the `temperature` pointer. Also you can put your code between brackets:
 
 	void temp_measurement_interrupt() 
 	{
@@ -87,15 +87,15 @@ And when some message is come `handle_temp_change` will be executed.
 		}
 	}
 
-If channel doesn't have enough space for new message, code inside of block won't executed.
+If the channel doesn't have enough space for new message, code inside of the block won't executed.
 
-At the end we run hanling mechanism with `handleEvent(TemperatureMeasured)`. It checks if some messages exists inside of channel and call `handle_temp_change` handler when message occurs. It process just one message, not all messages in channel.
+At the end we run a hanling mechanism with `handleEvent(TemperatureMeasured)`. It checks if some messages exists inside of the channel and call the `handle_temp_change` handler when a message occurs. It process just one message, not all messages in the channel.
 
 ### Data stream definition ###
 
 #### Handler binding ####
 
-You can handle data right in stream definition without writing separate function.
+You can handle data right in a stream definition without writing a separate function.
 
 	DataStream(KeyboardInput, int, 7)
 	{
@@ -119,32 +119,32 @@ If you need just to notify about some event without any data inside, you can dec
 	
 #### Ordering ####
 
-You can guruntee, that some events won't be available before other event has handled:
+You can guruntee, that some events won't be available, before other event has been handled:
 
 	OrderedEvent(EventA, 2, defaultGroup) {}
 	OrderedDataStream(EventB, int, 3, defaultGroup) {}
 	
-You pass group as third argument. Let say we have two events, firstly we have received EventB and after that EventA. So `handlerEvent(EventA)` will do nothing until `handleEvent(EventB)` is called.
-You can specify you own group with next definition: `Group keaboardGroup;`. So events withing defaultGroup will be ordered and events keaboardGroup will be ordered inside of groups and events that belongs to different groups is not ordered.
+You pass the group name as third argument. Let say we have two events, firstly we have received EventB and after EventA. So `handlerEvent(EventA)` will do nothing until `handleEvent(EventB)` is called.
+You can specify you own group with next definition: `Group keaboardGroup;`. So events within the defaultGroup will be ordered and events keaboardGroup will be ordered within groups and events that belongs to different groups is not ordered.
 
 ### Put data in channel ###
 
-You can put data with next construction:
+You can put data in channel with next construction:
 
-	publishData(DataCome, double* data) 
+	publishData(DataHasCome, double* data) 
 	{
 		*data = ...
 	}
 	
-All data inside of brackets is thead safe, so it's not recomended to do something with data pointer outside of block. If you have just one expression curly brackets can be omitted:
+All data inside of the brackets is thead safe, so it's not recomended to do something with data pointer outside of the block. If you have just one expression curly brackets can be omitted:
 
-	publishData(DataCome, double* data) *data = ...
+	publishData(DataHasCome, double* data) *data = ...
 	
 Pay attantion to that it works only for DataStream and OrderedDataStream. If you want to fire event, you have to use `publishEvent(EventName)` construction.
 
 #### Missing free space situation handling ####
 
-If channel doesn't have enough space for new message code within blocks won't be executed. If you want to handle this situation you can just write `else` section:
+If channel doesn't have enough space for new message, code within blocks won't be executed. If you want to handle this situation you can just write `else` section:
 
 	publishData(DataArrived, int* value) { }
 	else
@@ -154,7 +154,7 @@ If channel doesn't have enough space for new message code within blocks won't be
 	
 ## Event system ##
 
-You don't have need for write main function with handleEvent(...) calls chain. Instead of this it's recomended to define EventSystem:
+You don't have need for writing main function with handleEvent(...) calls chain. Instead of this it's recomended to define EventSystem:
 
 	#include "simple-system.h"
 	EventSystem
@@ -169,15 +169,15 @@ You don't have need for write main function with handleEvent(...) calls chain. I
 	
 ### Event system priorities ###
 
-You can make some events more importent than others. So, when system is handling EventA it proccess all messages that lay in channel during one Event System Step, not just one as in case of EventB:
+You can make some events more important than others. So, when the system is handling EventA, it's proccessing all messages that lay in channel during one EventSystemStep, not just one per step as in case of EventB:
 
 	EventSystem
 	{
-		HighPriorityregisterEvent(EventA);
+		HighPriority(registerEvent(EventA));
 		registerEvent(EventB);
 	}
 	
-If you need for extended priorities, you can use prioritized event system (the definition is strict, you can't omit any block or change order of blocks, but you can leave block empty, eg. `LowPriority {}`):
+If you need to extended priorities, you can use a prioritized event system (the definition is strict, you can't omit any block or change order of blocks, but you can leave block empty, eg. `LowPriority {}`):
 
 	#include "prioritized-system.h"
 
@@ -197,7 +197,7 @@ If you need for extended priorities, you can use prioritized event system (the d
 		}
 	}
 	
-In addition for previous we will have handling of all events with high priority betwwen checking any other channel.
+In addition for previous situation, we will be handling all events with high priority betwwen checking any other channel.
 *Caution.* You can't have both of event systems. So you should to be careful to not include both systems:
 
 	#include "prioritized-system.h"
@@ -205,7 +205,7 @@ In addition for previous we will have handling of all events with high priority 
 	
 ### Event system lifecycle ###
 
-If you want to do something in special cases you can defclare and register system events:
+If you want to do something in special system cases you can defclare and register system events:
 
 	SystemStart
 	{
@@ -237,7 +237,7 @@ Also you can omit registratrion of events by `#define SYSTEM_LIFECYCLE`. But in 
 
 	EventSystem { /* All events will be registered automaticaly */ }
 	
-If you want to stop system, you can publish stop event: `publishEvent(SystemStop)`. After that, loop in runEventSystem will be broken.
+If you want to stop system, you can publish the stop event: `publishEvent(SystemStop)`. After that, the loop in runEventSystem will be broken.
 
 ## Components ##
 
@@ -257,17 +257,17 @@ It just a additional util to avoid using global variables.
 		return sensor;
 	}
 	
-After that you can call Get(DefaultTemparatureSensor) to acquire pointer to component. It creates singleton, instance will be created automatically. Bear in mind, that it add `if` condition to check is component was created or not 
-every time, when you call Get(...). If you want to acquire value instead of pointer you can call `Value(ComponentName)` instead.
+After that you can call `Get(DefaultTemparatureSensor)` to acquire pointer to component. It creates a singleton, the instance of which is created automatically. Bear in mind, that it adds `if` condition to check is component was created or not 
+every time, when you call `Get(...)`. If you want to acquire value, instead of pointer, you can call `Value(ComponentName)`.
 So next lines do the same things:
 
 	*Get(Comp) = ...
 	Set(Comp, ...)
 	Value(Comp) = ...
 	
-If you want to reset component state and call init code, defined in `Component(...) { init code }`, you can call `Reset(Comp)`
+If you want to reset the component state and execute the init code, defined in `Component(...) { init code }`, you can do that via `Reset(Comp)`
 
-To create new Comoponent instead of acquiring of existing global you can call `Create(Comp)`:
+To create new component instead of acquiring existing, you can call `Create(Comp)`:
 
 	Component(int, IntegerComp)
 	{
@@ -282,7 +282,7 @@ To create new Comoponent instead of acquiring of existing global you can call `C
 	
 ### Binding to events ###
 
-You can use components inside of any event:
+You can use components mechanism inside of any event:
 
 	Component(int, dataComp) { return 3; }
 	Component(char, tickComp) { return 7; }
