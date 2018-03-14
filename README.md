@@ -1,6 +1,6 @@
 # Event System / Event Bus / Messages channel for embedded systems #
 
-There is a library that helps you to orginize your code for embedded systems. The events are one producer - one consumer thread safe. In the wild it means that you can create some channel between interrupts and main cicle of program.
+There is a library that helps you to orginize your code for embedded systems. The events are one producer - one consumer thread safe. In the wild it means that you can create some channel between interrupts and main cycle of program.
 
 ## Data channel ##
 
@@ -48,7 +48,7 @@ Disadvantages of this approach are obvious:
  
 void handle_temp_change(double *temperature) 
 {
-    ... // do something with tmperature
+    ... // do something with temperature
 }
 	
 DataStream(TemperatureMeasured, double, 3)
@@ -275,7 +275,7 @@ If you want to stop system, you can publish the stop event: `publishEvent(System
 
 ## Components ##
 
-### Lifecicle ###
+### Lifecycle ###
 
 It just a additional util to avoid using global variables.
 
