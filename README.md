@@ -19,7 +19,6 @@ void temp_measurement_interrupt();
 void handle_temp_change() 
 {
     ... // do something with temperature
-    has_new_measurement = 0;
 }
 void main() 
 {
