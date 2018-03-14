@@ -133,7 +133,7 @@ Event(PowerButtonPressed, 3)
 	
 #### Ordering ####
 
-You can guruntee, that some events won't be available, before other event has been handled:
+You can guaruntee, that some events won't be available, before other event has been handled:
 
 ```C
 OrderedEvent(EventA, 2, defaultGroup) {}
