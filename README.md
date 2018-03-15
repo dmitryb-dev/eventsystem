@@ -232,6 +232,24 @@ In addition for previous situation, we will be handling all events with high pri
 #include "prioritized-system.h"
 #include "simple-system.h" // ignored
 ```
+
+You can specify lower priorities via `skipTicks(number)`. It can be used in SystemTick as well as in event registration:
+
+```C
+SystemTick
+{
+    skipTicks(3) bindListener(check_is_data_arrived);
+}
+
+EventSystem
+{
+    skipTicks(10) registerEvent(CheckIsButtonPressed);
+    skipTicks(100) 
+    {
+        registerEvent(BurnFlash);
+    }
+}
+```
 	
 ### Event system lifecycle ###
 

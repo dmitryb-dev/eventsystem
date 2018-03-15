@@ -21,6 +21,7 @@ int _evs_handleSystemStop() \
 	if (_evs_isSystemStoppedTriggered) \
 	{ \
 		_evs_isEventSystemStopped = 1; \
+        _evs_isSystemStoppedTriggered = 0; \
 		_evs_onSystemStop(); \
 	} \
     return 0; \

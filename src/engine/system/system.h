@@ -2,7 +2,8 @@
 #define RUN_SYSTEM_ENGINE_H
 
 int _evs_isEventSystemStopped;
-char _evs_systemStepId;
+int _evs_isSystemStart;
+int _evs_systemStepId;
 
 int _evs_handleSystemStart();
 int _evs_handleSystemTick();
@@ -13,6 +14,7 @@ void _evs_systemStep();
 void runEventSystem()
 {
     _evs_isEventSystemStopped = 0;
+    _evs_isSystemStart = 1;
     
     #ifdef SYSTEM_LIFECYCLE
 	   _evs_handleSystemStart();

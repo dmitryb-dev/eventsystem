@@ -6,14 +6,12 @@
  */ 
 #define SystemStart \
 \
-int _evs_isSystemStarted; \
-\
 void _evs_onSystemStart(); \
 int _evs_handleSystemStart() \
 { \
-	if (!_evs_isSystemStarted) \
+	if (_evs_isSystemStart) \
     { \
-        _evs_isSystemStarted++; \
+        _evs_isSystemStart = 0; \
         _evs_onSystemStart(); \
     } \
     return 0; \
