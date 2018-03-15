@@ -7,7 +7,7 @@
 /*
  * See data-stream.h for details.
  */
-#define OrderedDataStream(Name, type, bufSize, group)  \
+#define OrderedDataStream(Name, type, bufSize, group) \
 \
 typedef struct _evs_DataWrapper##Name \
 { \
@@ -15,10 +15,10 @@ typedef struct _evs_DataWrapper##Name \
 	 type wrapped; \
 } _evs_DataWrapper##Name; \
 \
-void _evs_on##Name(type *data); \
+void _evs_on##Name(type *_evs_data); \
 OrderedBase(__Base##Name, _evs_Wrapper##Name, bufSize, group, _evs_DataWrapper##Name) \
 { \
-	 _evs_on##Name(&data->wrapped); \
+	 _evs_on##Name(&_evs_data->wrapped); \
 } \
 \
 void* _evs_create##Name() \
@@ -39,6 +39,6 @@ int _evs_handle##Name() \
 \
 void* _evs_state##Name; \
 \
-void _evs_on##Name(type *data)
+void _evs_on##Name(type *_evs_data)
 
 #endif

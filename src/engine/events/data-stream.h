@@ -40,7 +40,7 @@ int _evs_commit##Name() \
     return 0; \
 } \
 \
-void _evs_on##Name(type *data); \
+void _evs_on##Name(type *_evs_data); \
 \
 /**	\
  * If event buffer has new message, it takes that message and call \
@@ -59,6 +59,6 @@ int _evs_handle##Name() \
 /* For dsl, see dsl.h, publishData */ \
 void* _evs_state##Name; \
 \
-void _evs_on##Name(type *data)
+void _evs_on##Name(type *_evs_data)
 
 #endif

@@ -10,8 +10,8 @@
 #define publishEvent(EventType) if (_evs_publish##EventType()) {}
 
 
-#define getStreamData() data
-#define getStreamDataValue() *data
+#define getStreamData() _evs_data
+#define getStreamDataValue() *_evs_data
 
 
 #define bindHandler(handler) handler(getStreamData())
