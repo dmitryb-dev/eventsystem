@@ -30,11 +30,11 @@ void runEventSystem()
         
 		_evs_systemStepId++;
 		_evs_systemStep();
-        
-        #ifdef SYSTEM_LIFECYCLE
-	       _evs_handleSystemStop();
-        #endif
 	}
+    
+    #ifdef SYSTEM_LIFECYCLE
+        _evs_handleSystemStop();
+    #endif
 }
 
 #endif

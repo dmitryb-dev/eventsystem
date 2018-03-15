@@ -141,7 +141,7 @@ OrderedDataStream(EventB, int, 3, defaultGroup) {}
 ```
 	
 You pass the group name as third argument. Let say we have two events, firstly we have received EventB and after EventA. So `handlerEvent(EventA)` will do nothing until `handleEvent(EventB)` is called.
-You can specify you own group with next definition: `Group keaboardGroup;`. So events within the defaultGroup will be ordered and events keaboardGroup will be ordered within groups and events that belongs to different groups is not ordered.
+You can specify you own group with next definition: `Group keyboardGroup;`. So events within the defaultGroup will be ordered and events within keyboardGroup will be ordered, but events that belongs to different groups are not ordered.
 
 ### Put data in channel ###
 
