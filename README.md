@@ -45,20 +45,21 @@ Disadvantages of this approach are obvious:
 ```C
 #include "events-engine.h"
  
+void handle_temp_change(double *temperature);
+DataStream(TemperatureMeasured, double, 3)
+{
+    bindHandler(handle_temp_change);
+} 
+
 void handle_temp_change(double *temperature) 
 {
     ... // do something with temperature
 }
-	
-DataStream(TemperatureMeasured, double, 3)
-{
-    bindHandler(handle_temp_change);
-}
-	
 void temp_measurement_interrupt() 
 {
     publishData(TemperatureMeasured, double* temperature) *temperature = ...
 }
+
 void main() 
 {
     while(1) handleEvent(TemperatureMeasured);
@@ -98,7 +99,7 @@ void temp_measurement_interrupt()
 
 If the channel doesn't have enough space for new message, code inside of the block won't executed.
 
-At the end we run a hanling mechanism with `handleEvent(TemperatureMeasured)`. It checks if some messages exists inside of the channel and call the `handle_temp_change` handler when a message occurs. It process just one message, not all messages in the channel.
+At the end we run a handling mechanism with `handleEvent(TemperatureMeasured)`. It checks if some messages exists inside of the channel and call the `handle_temp_change` handler when a message occurs. It processes just one message, not all messages in the channel.
 
 ### Data stream definition ###
 
